@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-/* Insert supabase stuff here
-import { supabase } from '../lib/supabaseClient';
-import { isAdmin } from '../context/AuthContext'; */
+import { supabase } from '../Supabase';
+import { isAdmin } from '../AuthContext';
 // import './LoginPage.css'; needs to be created
 
 function resetLink() {
