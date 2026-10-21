@@ -1,0 +1,12 @@
+import { Stack  } from "expo-router";
+import AppBanner from "../componets/appBanner";
+
+export default function RootLayout() {
+  return (
+    <Stack screenOptions={{ header: () => <AppBanner />}}>
+      <Stack.Screen name="index" />
+      <Stack.Screen name="projects"/>
+      <Stack.Screen name="project_dscr" />
+    </Stack>
+  );
+}
