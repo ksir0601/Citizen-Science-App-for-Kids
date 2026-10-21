@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../useAuth';
 /* import './Navbar.css'; waiting to be created */ 
+
+// Placeholder for Supabase classes
+const classes = []
 
 function Navbar() {
     const { user, signOut } = useAuth();
@@ -9,7 +13,7 @@ function Navbar() {
 
     async function handleSignOut() {
         await signOut();
-        navigate('/login', { replace: True });
+        navigate('/login', { replace: true });
     }
 
     return (
@@ -24,7 +28,7 @@ function Navbar() {
                                 <NavLink to={`/classes/${c.id}`}>{c.name}</NavLink>
                                     <button type="button"
                                      onClick={() => setcollapsed((s) => ({ ...s, [c.id]: !s[c.id] }))} 
-                                     aria label={collapsed[c.id] ? "Expand" : "Collapse"}>
+                                     aria-label={collapsed[c.id] ? "Expand" : "Collapse"}>
                                      {collapsed[c.id] ? ">" : "v"}
                                     </button>
                             </div>

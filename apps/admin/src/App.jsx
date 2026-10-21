@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { RequireAdmin } from './auth';
+import { Route, Routes } from 'react-router-dom';
+import { RequireAdmin } from './AuthContext';
+import Navbar from './components/Navbar';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ClassPage from './pages/ClassPage';
@@ -9,23 +9,22 @@ import NewProjectPage from './pages/NewProjectPage';
 
 function App() {
     return (
-        <main>
-            <Routes>
-                <Route path="/login" element={<LoginPage/>} />
-                
-                <Route element={
+        <Routes>
+            <Route path="/login" element={<LoginPage />} />
+
+            <Route
+                element={
                     <RequireAdmin>
-                        <NavBar/>
+                        <Navbar />
                     </RequireAdmin>
-                }>
-                
-                <Route index element={<HomePage/>} />
-                <Route path="classes/:classId" element={<ClassPage/>} />
-                <Route path="clases/:classId/projects/:projectID" element={<ProjectPage/>} />
-                <Route path="/new-project" element={<NewProjectPage/>} />
-                </Route>
-            </Routes>
-        </main>
+                }
+            >
+                <Route index element={<HomePage />} />
+                <Route path="classes/:classId" element={<ClassPage />} />
+                <Route path="classes/:classId/projects/:projectID" element={<ProjectPage />} />
+                <Route path="new-project" element={<NewProjectPage />} />
+            </Route>
+        </Routes>
     );
 }
 

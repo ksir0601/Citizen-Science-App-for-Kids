@@ -1,16 +1,10 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { supabase } from '../Supabase';
-
-// Teacher = Admin
-export function isAdmin(user) {
-    return user?.app_metadata?.role === 'teacher';
-}
-
-const AuthContext = createContext(null);
+import { supabase } from './Supabase';
+import { AuthContext, useAuth, isAdmin } from './useAuth';
 
 export function AuthProvider({ children }) {
-    // undefined means still loading, null means signed out
+    // undefined means its loading, null means signed out
     const [session, setSession] = useState(undefined);
 
     useEffect(() => {
@@ -30,17 +24,13 @@ export function AuthProvider({ children }) {
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth() {
-    return useContext(AuthContext);
-}
-
 export function RequireAdmin({ children }) {
     const { session, loading } = useAuth();
     const location = useLocation();
 
     if (loading) return <div className='loading-page'>Loading...</div>;
 
-    if (!session || !isAdmin(session.user)) {
+    if (!session || !isAdmin (session.user)) {
         return <Navigate to='/login' replace state={{ from: location }} />;
     }
     return children;
