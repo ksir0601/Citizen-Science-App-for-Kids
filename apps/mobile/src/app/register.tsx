@@ -28,7 +28,7 @@ export default function Register() {
         style={styles.input}/>
       </View>
            <View style={styles.inputGroup}>
-        <Text style={styles.label}>Teacher's Name</Text>
+        <Text style={styles.label}>{"Teacher's Name"}</Text>
         <TextInput
         style={styles.input}/>
       </View>

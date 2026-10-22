@@ -26,7 +26,7 @@ export default function Index() {
       </Link>
       <Link href='/register' asChild>
       <Pressable>
-        <Text style={styles.register}>Don't have an accout? Register here</Text>
+        <Text style={styles.register}> {"Don't have an account? Register here"}</Text>
       </Pressable>
       </Link>
     </Screen>

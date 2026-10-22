@@ -21,7 +21,7 @@ jobs:
           cache-dependency-path: apps/admin/package-lock.json
       - run: npm ci
       - run: npm run lint
-      - run: npm run build\
+      - run: npm run build
   
   database:
     name: Database
@@ -36,9 +36,28 @@ jobs:
       - name: Check the SQL for errors
         run: supabase db lint --level error
 
+  mobile:
+    name: Mobile app
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/mobile/package-lock.json
+      - run: npm ci
+      - name: Check the code for mistakes (lint)
+        run: npm run lint --if-present
+      - name: Check TypeScript types
+        run: npx tsc --noEmit
+
   ci-passed:
     name: CI passed
-    needs: [admin, database]
+    needs: [admin, database, mobile]
     if: always()
     runs-on: ubuntu-latest
     steps:
