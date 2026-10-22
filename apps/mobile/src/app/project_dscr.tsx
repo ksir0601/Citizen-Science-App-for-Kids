@@ -22,10 +22,30 @@ export default function ProjectDscr() {
   
     </View>
       <Text style={styles.title}>Schoolyard Bug Count</Text>
+    <Text style={styles.dscr_head}>
+        Description
+    </Text>
       <Text style={styles.description}>
-        Description goes here!
+
+        There are many ways of determining the health
+    of ecosystems. One is biodiversity. According to 
+    Merriam Webster dictionary Biodiversity: 
+    “biological diversity in an environment as
+    indicated by numbers of different species
+    of plants and animals”. In this project you will 
+    count the number of species of bugs you can find
+    in different ecosystems. 
       </Text>
     </View>
+
+    <Link href="/field_1" asChild>
+        <Pressable>
+            <Text style={styles.entry}>
+                Add New Journal Entry
+            </Text>
+        </Pressable>
+    </Link>
+
     </Screen>
   );
 }
@@ -41,6 +61,7 @@ const styles = StyleSheet.create({
     fontFamily: "PlaypenSan-Bold",
     marginBottom: 10,
     color: '#CCCCCC',
+    textAlign: 'center',
     
   },
   description: {
@@ -48,6 +69,12 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: '#CCCCCC',
   },
+    dscr_head: {
+    fontSize: 14,
+    lineHeight: 22,
+    color: '#CCCCCC',
+    textDecorationLine: "underline",
+    },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -58,14 +85,28 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'PlaypenSan-SemiBold',
     paddingTop: 5,
-    marginLeft: 75,
+    marginLeft: 50,
     color: '#CCCCCC'
   },
     projects:{
     fontSize: 14,
     fontFamily: 'PlaypenSan-SemiBold',
     paddingTop: 5,
-    marginRight: 75,
+    marginRight: 50,
     color: '#CCCCCC'
+  },
+
+    proj_desc:{
+    fontSize: 14,
+    fontFamily: 'PlaypenSan-SemiBold',
+    paddingTop: 10,
+    textAlign: 'center',
+    color: '#CCCCCC'
+  },
+    entry: {
+    fontSize: 14,
+    lineHeight: 22,
+    color: '#CCCCCC',
+    textAlign: 'center',
   },
 });
