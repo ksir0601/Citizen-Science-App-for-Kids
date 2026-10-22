@@ -1,5 +1,5 @@
-import Screen from '@/componets/Screen';
-import ScreenTitle from '@/componets/ScreenTitle';
+import Screen from '../components/Screen';
+import ScreenTitle from '../components/ScreenTitle';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 import { Link } from 'expo-router';
 

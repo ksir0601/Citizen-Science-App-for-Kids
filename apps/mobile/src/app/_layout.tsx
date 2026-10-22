@@ -1,5 +1,5 @@
 import { Stack  } from "expo-router";
-import AppBanner from "../componets/appBanner";
+import AppBanner from "../components/appBanner";
 
 export default function RootLayout() {
   return (

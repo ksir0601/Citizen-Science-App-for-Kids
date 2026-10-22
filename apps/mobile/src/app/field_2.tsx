@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, TextInput, Pressable } from "react-native";
 import { Link } from 'expo-router';
-import Screen from "@/componets/Screen";
+import Screen from "../components/Screen";
 
 export default function ProjectDscr() {
   return (

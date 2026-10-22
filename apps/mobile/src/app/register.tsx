@@ -1,8 +1,7 @@
 import { Text, View, StyleSheet, TextInput, Pressable } from "react-native";
 // import { Image } from "expo-image";
-import ScreenTitle from "@/componets/ScreenTitle";
-import AppBanner from "@/componets/appBanner";
-import Screen from "@/componets/Screen";
+import ScreenTitle from "../components/ScreenTitle";
+import Screen from "../components/Screen";
 import { Link } from 'expo-router';
 
 

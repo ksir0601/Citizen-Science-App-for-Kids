@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, TextInput, Pressable } from "react-native";
-import ScreenTitle from "@/componets/ScreenTitle";
-import Screen from "@/componets/Screen";
+import ScreenTitle from "../components/ScreenTitle";
+import Screen from "../components/Screen";
 import { Link } from 'expo-router';
 
 export default function Index() {

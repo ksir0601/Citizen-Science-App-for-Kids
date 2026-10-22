@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { Link } from 'expo-router';
-import Screen from "@/componets/Screen";
+import Screen from "../components/Screen";
 import { useState } from 'react'
 
 export default function ProjectDscr() {
