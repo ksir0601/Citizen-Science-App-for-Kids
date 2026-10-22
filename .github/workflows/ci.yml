@@ -21,4 +21,32 @@ jobs:
           cache-dependency-path: apps/admin/package-lock.json
       - run: npm ci
       - run: npm run lint
-      - run: npm run build
+      - run: npm run build\
+  
+  database:
+    name: Database
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: supabase/setup-cli@v3
+        with:
+          version: latest
+      - name: Start a test database and apply all migrations
+        run: supabase db start
+      - name: Check the SQL for errors
+        run: supabase db lint --level error
+
+  ci-passed:
+    name: CI passed
+    needs: [admin, database]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check that every job passed
+        run: |
+          if [[ "${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}" == "true" ]]; then
+            echo "::error::A CI job did not pass. Open it above to see why."
+            exit 1
+          fi
+          echo "All checks passed."
+          
