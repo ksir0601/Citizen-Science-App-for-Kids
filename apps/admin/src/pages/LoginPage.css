@@ -1,0 +1,127 @@
+.login-page {
+    --navy: #3d405b;
+    --cream: #f4f1de;
+    --coral: #e07a5f;
+    --sage: #81b29a;
+    --sand: #f2cc8f;
+
+    min-height: 100vh;
+    padding: 24px 16px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--navy);
+    color: var(--cream);
+}
+
+.login-page::before {
+    content: '';
+    width: min(100%, 640px);
+    aspect-ratio: 1488 / 361;
+    margin-bottom: 24px;
+    background: url('../assets/banner.png') center / contain no-repeat;
+}
+
+.login-page > header {
+    margin-bottom: 24px;
+    font-size: 34px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.login-page form {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-page h1 {
+    margin: 0 0 32px;
+    font-size: 22px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.login-page label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.login-page input {
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    background: var(--cream);
+    color: var(--navy);
+    font: inherit;
+    font-size: 15px;
+}
+
+.login-page input:focus {
+    outline: 3px solid var(--sand);
+    outline-offset: 2px;
+}
+
+.login-page p {
+    margin: 0 0 16px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-page p[role='alert'] {
+    color: #f4a690;
+}
+
+.login-page p[role='status'] {
+    color: #a8d5bf;
+}
+
+.login-page button {
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--sand);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.login-page button:hover {
+    text-decoration: underline;
+}
+
+.login-page form > button[type='button'] {
+    align-self: flex-end;
+    margin: -10px 0 18px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.login-page button[type='submit'] {
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 8px;
+    background: var(--cream);
+    color: var(--navy);
+    font-size: 16px;
+}
+
+.login-page button[type='submit']:hover {
+    background: var(--sand);
+    text-decoration: none;
+}
+
+.login-page button[type='submit']:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+
+.login-page footer {
+    margin-top: 32px;
+    font-size: 14px;
+    text-align: center;
+}
