@@ -1,5 +1,5 @@
-function ProjectPage() {
-    return <h1>Project</h1>;
+function NewProjectPage() {
+    return <h1>Project Page</h1>;
 }
 
-export default ProjectPage;
+export default NewProjectPage;
