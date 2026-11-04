@@ -1,0 +1,2 @@
+-- Test data for local and CI database. Added in Progress Report 2. 
+-- Runs automatically every time a TEST database starts (CI's Database check, or a local copy with 'supabase start'). Doesn't run on real project.
