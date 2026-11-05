@@ -3,7 +3,7 @@ import { Link } from 'expo-router';
 import Screen from "../components/Screen";
 import { useState } from "react";
 
-export default function field_2() {
+export default function Field_2() {
     const [count, setCount] = useState(0);
   return (
     <Screen> 
