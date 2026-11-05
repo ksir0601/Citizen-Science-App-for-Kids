@@ -1,3 +1,4 @@
+import { View, Pressable, Text, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
 import Screen from "../components/Screen";
 import { useState } from "react";
