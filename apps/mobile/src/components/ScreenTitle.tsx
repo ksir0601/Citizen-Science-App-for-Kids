@@ -1,4 +1,3 @@
-import { setHasAttemptedToHideSplash } from 'expo-router/build/global-state/store';
 import { Text, StyleSheet, TextStyle } from 'react-native';
 
 type ScreenTitleProps = {
