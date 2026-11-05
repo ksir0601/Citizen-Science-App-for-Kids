@@ -3,8 +3,8 @@
 -- Runs automaticaly after the migrations on `supabase start`,
 -- `supabase db reset`, and in CI. It never runs on the real project.
 --
--- Logins (local only):  rivera@test.local / password123
---                       chen@test.local   / password123
+-- Logins (local only):  teacher1@test.local / password123
+--                       teacher2@test.local   / password123
 -- Join codes: BUGCNT (open), WEATHR (open), TREHNT (closed)
 --
 -- The same ids are in mock/mockData.js. If you change one, change both.
@@ -24,12 +24,12 @@ insert into auth.users
    confirmation_token, recovery_token, email_change_token_new, email_change)
 values
   ('00000000-0000-0000-0000-000000000000', '10000000-0000-0000-0000-000000000001',
-   'authenticated', 'authenticated', 'rivera@test.local', crypt('password123', gen_salt('bf')), now(),
-   '{"provider":"email","providers":["email"]}', '{"display_name":"Ms. Rivera"}',
+   'authenticated', 'authenticated', 'teacher1@test.local', crypt('password123', gen_salt('bf')), now(),
+   '{"provider":"email","providers":["email"]}', '{"display_name":"Teacher 1"}',
    false, now(), now(), '', '', '', ''),
   ('00000000-0000-0000-0000-000000000000', '10000000-0000-0000-0000-000000000002',
-   'authenticated', 'authenticated', 'chen@test.local', crypt('password123', gen_salt('bf')), now(),
-   '{"provider":"email","providers":["email"]}', '{"display_name":"Mr. Chen"}',
+   'authenticated', 'authenticated', 'teacher2@test.local', crypt('password123', gen_salt('bf')), now(),
+   '{"provider":"email","providers":["email"]}', '{"display_name":"Teacher 2"}',
    false, now(), now(), '', '', '', '');
 
 -- Each email user also needs an "identity" row to be able to log in.
@@ -43,7 +43,7 @@ where u.email like '%@test.local';
 
 
 -- ---------------------------------------------------------------------
--- 2. KIDS: anonymous users (no email, no password).
+-- 2. Kids: anonymous users (no email, no password).
 -- The signup trigger skips them, so they never become teachers.
 -- ---------------------------------------------------------------------
 insert into auth.users (instance_id, id, aud, role, is_anonymous, created_at, updated_at)
@@ -55,7 +55,7 @@ values
 
 
 -- ---------------------------------------------------------------------
--- 3. PROJECTS: two open ones for Ms. Rivera, one closed one for Mr. Chen.
+-- 3. PROJECTS: two open ones for Teacher 1, one closed one for Teacher 2.
 -- We set the join codes ourselves so they're easy to remember.
 -- ---------------------------------------------------------------------
 insert into public.projects (id, teacher_id, name, description, join_code, is_open)
