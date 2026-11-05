@@ -2,9 +2,9 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { Link } from 'expo-router';
 import Screen from "../components/Screen";
-import { useState } from 'react'
+import { useState } from 'react';
 
-export default function ProjectDscr() {
+export default function Field_1() {
     const [selected, setSelected] = useState("Playground");
   return (
     <Screen> 
@@ -38,13 +38,18 @@ export default function ProjectDscr() {
  Every little habitat has a story! Pick your spot.
       </Text>
     </View>
-    <View>
-        <Picker selectedValue={selected} onValueChange={setSelected}>
-        <Picker.Item label="Playground" value="Playground" />
+      <View style={styles.dropEntry}>
+        <Picker
+          selectedValue={selected}
+          onValueChange={setSelected}
+          // itemStyle={styles.picker}
+          >
+        <Picker.Item label="Playground" value="Playground" style={{ backgroundColor: '#81B29A'}}/>
+        <Picker.Item label="Field" value="Field" />
         </Picker>
     </View>
 
-    <Link href={'/field_2'}>
+    <Link href='/field_2' asChild>
         <Pressable>
             <Text style={styles.entry}>
                 Next
@@ -113,5 +118,17 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: '#CCCCCC',
     textAlign: 'center',
+  },
+  dropEntry: {
+    backgroundColor: '81B29A',
+    width: 240,  
+  },
+  picker: {
+    color: "#CCCCCC",
+    backgroundColor: "#81B29A"
+  },
+  dropDownText: {
+    fontSize: 14,
+    color: '#CCCCCC',
   },
 });

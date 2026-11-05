@@ -9,6 +9,8 @@ export default function RootLayout() {
       <Stack.Screen name="project_dscr" />
       <Stack.Screen name="field_1" />
       <Stack.Screen name="field_2" />
+      <Stack.Screen name="field_3" />
+      <Stack.Screen name="field_4" />
     </Stack>
   );
 }
