@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { Link } from 'expo-router';
 import Screen from "../components/Screen";
-import { useState } from 'react'
+import { useState } from 'react';
 
 export default function field_1() {
     const [selected, setSelected] = useState("Playground");
