@@ -4,7 +4,7 @@ import { Link } from 'expo-router';
 import Screen from "../components/Screen";
 import { useState } from 'react';
 
-export default function field_1() {
+export default function Field_1() {
     const [selected, setSelected] = useState("Playground");
   return (
     <Screen> 
