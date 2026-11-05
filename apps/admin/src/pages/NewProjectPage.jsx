@@ -61,11 +61,8 @@ function NewProjectPage() {
     const [classId, setClassId] = useState(searchParams.get('class') || '');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [customCode, setCustomCode] = useState(false);
-    const [joinCode, setJoinCode] = useState('');
     const [questions, setQuestions] = useState(() => [newQuestion()]);
     const [submitted, setSubmitted] = useState(false);
-    const [takenCode, setTakenCode] = useState('');
     const [error, setError] = useState('');
     const [saving, setSaving] = useState(false);
     const [created, setCreated] = useState(null);
@@ -146,7 +143,7 @@ function NewProjectPage() {
             if (error) return setError(error.message);
 
             // Assumes supabase has a 'questions' table with 'project_id', 'position', 'type', 'label', 'required', 'options' columns and that 'options' is a text array that is only used by dropdowns
-            const { error: questionError } = await supabase.from('questions').insert(
+            const { error: questionsError } = await supabase.from('questions').insert(
                 questions.map((q, i) => ({
                     project_id: project.id,
                     position: i,
@@ -160,7 +157,7 @@ function NewProjectPage() {
             // Prevents a project being saved with no questions, in the event that a project is successfully saved but the questions are not
             if (questionsError) {
                 await supabase.from('projects').delete().eq('id', project.id);
-                return setError(questionError.message);
+                return setError(questionsError.message);
             }
 
             setCreated({ id: project.id, projectCode: project.project_code });
@@ -202,6 +199,22 @@ function NewProjectPage() {
             </div>
         );
     }
+
+    if (created) {
+        return (
+            <div className ='new-project-page'>
+                <h1>Project Created</h1>
+                <p>Students join '{name.trim()}' in the app with this code:</p>
+                <p className='join-code'>{created.joinCode}</p>
+
+                <button type='button' onClick={copyProjectcode}>{copied ? 'Copied!' : 'Copy Project Code'}</button>
+                <Link to={`/classes/${classId}/projects/${created.id}`}>View Project</Link>
+                <button type='button' onClick={startOver}>Create Another Project</button>
+            </div>
+        )
+    }
+
+    const errors = submitted ? validate(classId, name, questions) : {};
 
     return (
         <div className='new-project-page'>
@@ -283,13 +296,13 @@ function NewProjectPage() {
                                                         {...(j === 0 ? errorProps(errors, `option-${q.key}-0`) : {})}
                                                         aria-label={`Question ${i + 1} option ${j + 1}`}
                                                         value={o}
-                                                        onChange={(e) => updatedOption(q, j, e.target.value)} />
+                                                        onChange={(e) => updateOption(q, j, e.target.value)} />
                                                     
                                                     <button
                                                         type='button'
                                                         onClick={() => removeOption(q, j)}
                                                         disabled={q.options.length <= 2}>
-                                                        <Remove></Remove>
+                                                        Remove
                                                     </button>
                                                 </div>
                                             ))}

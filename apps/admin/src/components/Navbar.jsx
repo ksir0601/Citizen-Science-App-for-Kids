@@ -1,10 +1,8 @@
-import { useState } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { supabase } from '../Supabase';
 import { useAuth } from '../useAuth';
-/* import './Navbar.css'; waiting to be created */ 
-
-// Placeholder for Supabase classes
-const classes = []
+import './Navbar.css'
 
 function Navbar() {
     const { user, signOut } = useAuth();
@@ -32,9 +30,14 @@ function Navbar() {
         <>
             <aside className="navbar">
                 <h2>Your Classes</h2>
+                <NavLink to='/new-project' className='new-project'>Add New project</NavLink>
 
                 <nav>
-                    {classes.map((c) => (
+                    {!loaded.done && <p>Loading...</p>}
+                    {loaded.error && <p role='alert'>Couldn't load your classes.</p>}
+                    {loaded.done && !loaded.error && loaded.classes.length === 0 && <p>You don't have any classes yet.</p>}
+                    
+                    {loaded.classes.map((c) => (
                         <section key={c.id}>
                             <div className="class-row">
                                 <NavLink to={`/classes/${c.id}`}>{c.name}</NavLink>
