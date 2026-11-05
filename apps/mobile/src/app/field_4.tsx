@@ -1,9 +1,8 @@
-import { Text, View, StyleSheet, TextInput, Pressable, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Link } from 'expo-router';
 import Screen from "../components/Screen";
 import { useState } from "react";
 
-export default function field_4() {
+export default function Field_4() {
     const [text, setText] = useState('');
   return (
     <Screen> 
