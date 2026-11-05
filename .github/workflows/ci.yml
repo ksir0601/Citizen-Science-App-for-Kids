@@ -31,10 +31,13 @@ jobs:
       - uses: supabase/setup-cli@v3
         with:
           version: latest
-      - name: Start a test database and apply all migrations
-        run: supabase db start
+      - name: Start Supabase (applies migration and loads seed data)
+        run: supabase start
       - name: Check the SQL for errors
         run: supabase db lint --level error
+      - name: Run the database tests (pgTAP)
+        run: supabase test db 
+      
 
   mobile:
     name: Mobile app
