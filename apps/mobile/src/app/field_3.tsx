@@ -1,9 +1,8 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { Link } from 'expo-router';
 import Screen from "../components/Screen";
-import { useState } from "react";
 
-export default function field_3() {
+export default function Field_3() {
     const items = [0, 1, 2, 3, 4,5];
     return (
     <Screen> 
