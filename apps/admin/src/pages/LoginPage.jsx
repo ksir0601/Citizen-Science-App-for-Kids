@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../Supabase';
 import { isAdmin } from '../useAuth';
-// import './LoginPage.css'; needs to be created
+import './LoginPage.css';
 
 function resetLink() {
     return window.location.hash.includes('type=recovery');
@@ -143,6 +143,7 @@ function LoginPage() {
 
     return (
         <div className='login-page'>
+            <header>Citizen Science Jr</header>
             <form onSubmit={handleSubmit}>
                 <h1>{titles[mode]}</h1>
 

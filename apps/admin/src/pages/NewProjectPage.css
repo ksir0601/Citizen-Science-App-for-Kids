@@ -1,0 +1,236 @@
+.new-project-page {
+    min-height: 100vh;
+    padding: 40px 24px 60px;
+     display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--navy);
+    color: var(--cream);
+}
+
+.new-project-page form {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+}
+
+.new-project-page h1 {
+    margin: 0 0 32px;
+    font-size: 28px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.new-project-page h2 {
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.new-project-page label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.new-project-page input:not([type='checkbox']),
+.new-project-page select,
+.new-project-page textarea {
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    background: var(--cream);
+    color: var(--navy);
+    font: inherit;
+    font-size: 15px;
+}
+
+.new-project-page textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+.new-project-page input:focus,
+.new-project-page select:focus,
+.new-project-page textarea:focus {
+    outline: 3px solid var(--sand);
+    outline-offset: 2px;
+}
+
+.new-project-page [aria-invalid='true'] {
+    outline: 2px solid #f4a690;
+    outline-offset: 2px;
+}
+
+.new-project-page small {
+    margin: -2px 0 8px;
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+.new-project-page p {
+    margin: 0 0 16px;
+    font-size: 14px;
+}
+
+.new-project-page > p {
+    text-align: center;
+}
+
+.new-project-page p[role='alert'] {
+    margin: -10px 0 18px;
+    color: #f4a690;
+    font-weight: 600;
+}
+
+.new-project-page fieldset {
+    min-width: 0;
+    margin: 8px 0 18px;
+    padding: 0;
+    border: none;
+}
+
+.new-project-page legend {
+    margin-bottom: 12px;
+    padding: 0;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.new-project-page section {
+    margin-bottom: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    background: rgba(244, 241, 222, 0.06);
+}
+
+.new-project-page label:has(> input[type='checkbox']) {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.new-project-page input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--sand);
+}
+
+.new-project-page .options {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.new-project-page .options > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.new-project-page .options input {
+    flex: 1;
+    margin-bottom: 10px;
+}
+
+.new-project-page .options > div > button {
+    margin-bottom: 10px;
+}
+
+.new-project-page .question-actions {
+    padding-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    border-top: 1px solid rgba(244, 241, 222, 0.15);
+}
+
+.new-project-page button {
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--sand);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.new-project-page button:hover {
+    text-decoration: underline;
+}
+
+.new-project-page button:disabled {
+    opacity: 0.4;
+    cursor: default;
+    text-decoration: none;
+}
+
+.new-project-page .question-actions button:last-child {
+    margin-left: auto;
+    color: #f4a690;
+}
+
+.new-project-page fieldset > button {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed var(--sand);
+    border-radius: 8px;
+}
+
+.new-project-page fieldset > button:hover {
+    background: rgba(242, 204, 143, 0.1);
+    text-decoration: none;
+}
+
+.new-project-page button[type='submit'],
+.new-project-page > button:first-of-type {
+    margin-top: 8px;
+    padding: 12px 28px;
+    border-radius: 8px;
+    background: var(--cream);
+    color: var(--navy);
+    font-size: 16px;
+}
+
+.new-project-page button[type='submit']:hover,
+.new-project-page > button:first-of-type:hover {
+    background: var(--sand);
+    text-decoration: none;
+}
+
+.new-project-page button[type='submit']:disabled {
+    opacity: 0.7;
+}
+
+.new-project-page form > button[type='button'] {
+    margin-top: 16px;
+    align-self: center;
+}
+
+.new-project-page .join-code {
+    margin: 8px 0 20px;
+    padding: 16px 28px;
+    border-radius: 12px;
+    background: rgba(244, 241, 222, 0.06);
+    color: var(--sand);
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+}
+
+.new-project-page > a {
+    margin: 24px 0 14px;
+    color: var(--sand);
+    font-size: 14px;
+    font-weight: 700;
+}
