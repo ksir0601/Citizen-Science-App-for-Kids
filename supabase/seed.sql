@@ -7,7 +7,7 @@
 --                       teacher2@test.local   / password123
 -- Join codes: BUGCNT (open), WEATHR (open), TREHNT (closed)
 --
--- The same ids are in mock/mockData.js. If you change one, change both.
+-- DO not change file, have Kelcie change. The same ids are in mock/mockData.js. 
 --   1000...  teachers      2000...  kids
 --   3000...  projects      4000...  questions
 -- =====================================================================
