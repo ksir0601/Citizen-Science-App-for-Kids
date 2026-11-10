@@ -1,5 +1,8 @@
 -- =====================================================================
 -- joining a project with its code, through join_project()
+-- Citation: This code was generated with the help of Claude.  This transcript document 'sup-pgTAP-tutorial.md'  
+-- the GenAI interaction that led to my solution regarding test building and security rules."
+-- File Owner: Kelcie 
 -- =====================================================================
 begin;
 create extension if not exists pgtap with schema extensions;

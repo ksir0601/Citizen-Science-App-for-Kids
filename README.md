@@ -19,8 +19,8 @@ Kids never create accounts or enter personal information.
 - [x] Field app research (learning Expo and wireframe designs)
 - [x] Teacher sign up and login 
 - [x] Supabase project and database design
-- [ ] Database tables and security rules
-- [ ] Create projects with join codes
+- [x] Database tables and security rules
+- [x] Create projects with join codes
 - [ ] Add observations from the app
 - [ ] Results page, charts and CSV download
 
