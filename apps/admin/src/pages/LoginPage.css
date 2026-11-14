@@ -1,10 +1,4 @@
 .login-page {
-    --navy: #3d405b;
-    --cream: #f4f1de;
-    --coral: #e07a5f;
-    --sage: #81b29a;
-    --sand: #f2cc8f;
-
     min-height: 100vh;
     padding: 24px 16px 40px;
     display: flex;

@@ -8,5 +8,5 @@ export function useAuth() {
 
 // Teacher = admin
 export function isAdmin(user) {
-    return user?.app_metadata?.role === 'teacher';
+    return !!user && !user.is_anonymous;
 }
