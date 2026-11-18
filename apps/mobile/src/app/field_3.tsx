@@ -1,55 +1,50 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
-import { Link } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import Screen from "../components/Screen";
+import NavBar from "@/components/NavBar";
+import QuestionInput from "@/components/Switch";
+import { questions } from "@/mock/mockData"; 
+import { useDraftAnswer } from "./hooks/useDraftAnswer";
+
 
 export default function Field_3() {
-    const items = [0, 1, 2, 3, 4,5];
+  const { projectId } = useLocalSearchParams<{ projectId: string }>();
+  const question = questions
+    .filter((q) => q.project_id === projectId)
+    .sort((a, b) => a.position - b.position)[2];
+
+    const {draft, setDraft, commit} = useDraftAnswer(question.id)
+  
     return (
     <Screen> 
-     <View style={styles.row}>
-        <Link href='/projects' asChild>
-        <Pressable>
-        <Text style={styles.projects}>Projects</Text>
-        </Pressable>
-        </Link>
-        <Link href='/project_dscr'>
-            <Pressable>
-                <Text style={styles.proj_desc}>Projects Description</Text>
-            </Pressable>
-        </Link>
-        <Link href='/' asChild>
-        <Pressable>
-        <Text style={styles.logout}>Log Out</Text>
-        </Pressable>
-        </Link>
-        </View>
+     <NavBar/>
     <View style={styles.container}>
-    <View>
-  
-    </View>
-      <Text style={styles.title}>What bugs did you see? Tap every kind of bug you spotted!</Text>
-
+      <View>
+            <Text style={styles.description}>{question?.label}</Text>
+        
+          </View>
+          {question && (
+              <QuestionInput
+                question={question}
+                draft={draft}
+                setDraft={setDraft}
+              />
+            )}
     </View>
     
-        <View style={styles.grid}>
-            {items.map((i) => (
-                <View key={i} style={styles.cell}>
-                    <View style={styles.cellStyle} />
-                </View>
-            ))}
-        </View>
+       
 
 
 
     <View style={styles.footerRow}>
-    <Link href="/field_2" asChild>
+    <Link href={{ pathname: '/field_2', params: { projectId } }} asChild>
         <Pressable>
             <Text style={styles.footerLeft}>
                 Back
             </Text>
         </Pressable>
     </Link>
-    <Link href="/field_4" asChild>
+    <Link href={{ pathname: '/field_4', params: { projectId } }} asChild onPress={commit}>
         <Pressable>
             <Text style={styles.footerRight}>
                 Next

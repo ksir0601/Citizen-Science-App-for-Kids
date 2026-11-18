@@ -1,59 +1,50 @@
-import { View, Pressable, Text, StyleSheet, TextInput, Keyboard } from 'react-native';
-import { Link } from 'expo-router';
+import { Text, View, StyleSheet, Pressable } from "react-native";
+import { Link, useLocalSearchParams } from 'expo-router';
 import Screen from "../components/Screen";
-import { useState } from "react";
+import NavBar from "@/components/NavBar";
+import QuestionInput from "@/components/Switch";
+import { questions } from "@/mock/mockData"; 
+import { useDraftAnswer } from "./hooks/useDraftAnswer";
 
-export default function Field_4() {
-    const [text, setText] = useState('');
-  return (
+
+export default function Field_3() {
+  const { projectId } = useLocalSearchParams<{ projectId: string }>();
+  const question = questions
+    .filter((q) => q.project_id === projectId)
+    .sort((a, b) => a.position - b.position)[3];
+
+    const {draft, setDraft, commit} = useDraftAnswer(question.id)
+ 
+    return (
     <Screen> 
-     <View style={styles.row}>
-        <Link href='/projects' asChild>
-        <Pressable>
-        <Text style={styles.projects}>Projects</Text>
-        </Pressable>
-        </Link>
-        <Link href='/project_dscr'>
-            <Pressable>
-                <Text style={styles.proj_desc}>Projects Description</Text>
-            </Pressable>
-        </Link>
-        <Link href='/' asChild>
-        <Pressable>
-        <Text style={styles.logout}>Log Out</Text>
-        </Pressable>
-        </Link>
-        </View>
-
+     <NavBar/>
+    <View style={styles.container}>
       <View>
-      <Text style={styles.title}>Optional Field Notes!</Text>
+            <Text style={styles.description}>{question?.label}</Text>
+        
+          </View>
+          {question && (
+              <QuestionInput
+                question={question}
+                draft={draft}
+                setDraft={setDraft}
+              />
+            )}
     </View>
     
-<Pressable onPress={Keyboard.dismiss}>
-      <View style={styles.textContainer}>
-        
-        <TextInput 
-            style={styles.input}
-            value={text}
-            onChangeText={setText}
-            placeholder= "Add a note!"
-            placeholderTextColor= "black"
-        />
+       
 
-        </View>       
-     </Pressable>
-        
 
 
     <View style={styles.footerRow}>
-    <Link href="/field_3" asChild>
+    <Link href={{ pathname: '/field_3', params: { projectId } }} asChild>
         <Pressable>
             <Text style={styles.footerLeft}>
                 Back
             </Text>
         </Pressable>
     </Link>
-    <Link href="/review" asChild>
+    <Link href={{ pathname: '/optional', params: { projectId } }} asChild onPress={commit}>
         <Pressable>
             <Text style={styles.footerRight}>
                 Next
@@ -123,26 +114,6 @@ const styles = StyleSheet.create({
     color: '#CCCCCC',
     textAlign: 'center',
   },
-  counterBottun: {
-    width: 44,
-    height:44,
-    borderRadius: 22,
-    alignItems:'center',
-    justifyContent: 'center'
-  },
-
-  counterText: {
-    color: '#CCCCCC',
-    fontFamily: 'PlaypenSans',
-    fontSize: 40,
-  },
-
-  counterRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 20
-  },
   footerContainer: {
     flex: 1,
     alignItems: 'center',
@@ -153,7 +124,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    top: 300,
+    top: 100,
   },
   footerLeft:{
     fontSize: 14,
@@ -168,29 +139,17 @@ const styles = StyleSheet.create({
     paddingLeft: 75,
     },
 
-    input: {
-        width: 240,
-        height: 120,
-        paddingHorizontal: 12,
+    grid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    cell: {
+        width: '33.33%',
+        padding: 8,
+    },
+    cellStyle: {
+        aspectRatio: 1,
+        backgroundColor: "#81B29A",
         borderRadius: 12,
-        textAlign: 'left',
-        textAlignVertical: 'top'
-
-    },
-    textContainer: {
-        top: '10%',
-        left: '2.25%',
-        width: 280,
-        height:200,
-        backgroundColor: "#fff",
-    },
-    presCont:{
-        top: '10%',
-        left: '2.25%',
-        width: 280,
-        height:200,        
-        justifyContent: 'center',
-        alignItems:'center',
-        backgroundColor: "#3D405B"
     }
 });

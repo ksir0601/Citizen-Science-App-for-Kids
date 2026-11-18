@@ -1,62 +1,48 @@
-import { Text, View, StyleSheet, Pressable } from "react-native";
-import { Picker } from '@react-native-picker/picker';
-import { Link } from 'expo-router';
-import Screen from "../components/Screen";
-import { useState } from 'react';
+import { Text, View, StyleSheet, Pressable} from "react-native";
+import { useLocalSearchParams, Link } from 'expo-router';
+import Screen from "@/components/Screen";
+import NavBar from "@/components/NavBar";
+import QuestionInput from "@/components/Switch";
+import { projects, questions } from "@/mock/mockData";
+import { useDraftAnswer } from "./hooks/useDraftAnswer";
 
 export default function Field_1() {
-    const [selected, setSelected] = useState("Playground");
+  const { projectId } = useLocalSearchParams<{ projectId: string }>();
+  const project = projects.find((p) => p.id === projectId);
+  const question = questions
+    .filter((q) => q.project_id === projectId)
+    .sort((a, b) => a.position - b.position)[0];
+  const {draft, setDraft, commit} = useDraftAnswer(question.id)
+
+
+
   return (
     <Screen> 
-    <View style={styles.row}>
-    <Link href='/projects' asChild>
-    <Pressable>
-    <Text style={styles.projects}>Projects</Text>
-    </Pressable>
-    </Link>
-    <Link href='/project_dscr'>
-        <Pressable>
-            <Text style={styles.proj_desc}>Projects Description</Text>
-        </Pressable>
-    </Link>
-    <Link href='/' asChild>
-    <Pressable>
-    <Text style={styles.logout}>Log Out</Text>
-    </Pressable>
-    </Link>
-    </View>
+      <NavBar/>
     <View style={styles.container}>
     <View>
   
     </View>
-      <Text style={styles.title}>Schoolyard Bug Count</Text>
-    <Text style={styles.dscr_head}>
-        
-    </Text>
-      <Text style={styles.description}>
+      <Text style={styles.title}>{project?.name}</Text>
 
- Every little habitat has a story! Pick your spot.
-      </Text>
-    </View>
-      <View style={styles.dropEntry}>
-        <Picker
-          selectedValue={selected}
-          onValueChange={setSelected}
-          // itemStyle={styles.picker}
-          >
-        <Picker.Item label="Playground" value="Playground" style={{ backgroundColor: '#81B29A'}}/>
-        <Picker.Item label="Field" value="Field" />
-        </Picker>
-    </View>
+    <Text style={styles.proj_desc}>{question?.label}</Text>
 
-    <Link href='/field_2' asChild>
+    {question && (
+      <QuestionInput
+        question={question}
+        draft={draft}
+        setDraft={setDraft}
+        />
+    )}
+
+    </View>
+    <Link href={{ pathname: '/field_2', params: { projectId } }} asChild onPress={commit}>
         <Pressable>
             <Text style={styles.entry}>
                 Next
             </Text>
         </Pressable>
     </Link>
-
     </Screen>
   );
 }
@@ -75,11 +61,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     
   },
-  description: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#CCCCCC',
-  },
+
     dscr_head: {
     fontSize: 14,
     lineHeight: 22,
@@ -113,22 +95,10 @@ const styles = StyleSheet.create({
     marginRight: 50,
     color: '#CCCCCC'
   },
-    entry: {
+  entry:{
     fontSize: 14,
-    lineHeight: 22,
     color: '#CCCCCC',
     textAlign: 'center',
-  },
-  dropEntry: {
-    backgroundColor: '81B29A',
-    width: 240,  
-  },
-  picker: {
-    color: "#CCCCCC",
-    backgroundColor: "#81B29A"
-  },
-  dropDownText: {
-    fontSize: 14,
-    color: '#CCCCCC',
-  },
-});
+    fontFamily: "PlaypenSan-Bold",
+  }
+  });

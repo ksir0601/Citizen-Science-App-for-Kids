@@ -1,9 +1,37 @@
 import { Text, View, StyleSheet, TextInput, Pressable } from "react-native";
 import ScreenTitle from "../components/ScreenTitle";
 import Screen from "../components/Screen";
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
+import { useState } from 'react';
+import * as api from "../mock/mockApi"
+
 
 export default function Index() {
+
+  // Router used in place of <Link> this allows from params
+  const router = useRouter();
+  const [projectCode, setProjectCode] = useState('');
+  const [error, setError] = useState('');
+
+
+  const join = async () => {
+    try {
+      const result: any = await api.joinProject(projectCode)
+
+      const failed =
+      !result || result.ok === false || result.success === false || !!result.error;
+
+      if (failed) {
+        setError("Oops it looks like that is the wrong project code!"); 
+        return;
+      }
+      const project = result?.data ?? result;
+      router.push({pathname: '/project_dscr', params: { projectId: String(project.id)}} as any);
+    } catch (err) {
+      console.log("joinProject failed:", err)
+    }
+  };
+
   return (
     <Screen>
       <ScreenTitle>Citizen Science Jr</ScreenTitle>
@@ -15,15 +43,23 @@ export default function Index() {
       />
       </View>
       <View style={styles.inputGroup}>
-        <Text style={styles.label}>Class Code</Text>
+        <Text style={styles.label}>Project Code</Text>
         <TextInput
-        style={styles.input}/>
+        style={styles.input}
+        placeholder=""
+        onChangeText={(t) => {
+          setProjectCode(t);
+          if (error) setError('');
+        }}
+        value={projectCode}
+        />
+        {error ? <Text style={styles.error}>{error}</Text> : null}
       </View>
-      <Link href='/projects' asChild>
-      <Pressable style={styles.button}>
+      
+      <Pressable style={styles.button} onPress={join}>
+      
         <Text style={styles.buttonText}>Sign in</Text>
       </Pressable>
-      </Link>
       <Link href='/register' asChild>
       <Pressable>
         <Text style={styles.register}> {"Don't have an account? Register here"}</Text>
@@ -71,5 +107,10 @@ const styles = StyleSheet.create({
     paddingTop: 300,
     color: '#CCCCCC'
 
+  },
+  error: {
+    color: "#E07A5F",
+    fontSize: 14,
+    marginTop: 6,
   }
-})
+});

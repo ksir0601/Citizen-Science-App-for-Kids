@@ -1,44 +1,32 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
-import { Link } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import Screen from "../components/Screen";
+import { projects } from "../mock/mockData"
+import NavBar from "@/components/NavBar";
 
 export default function ProjectDscr() {
-  return (
+    const {projectId } = useLocalSearchParams<{ projectId: string }>();
+    const project = projects.find((p) => p.id === projectId)
+
+    if (!project){
+      return (
+        <Screen>
+          <Text style={styles.description}>Project not found.</Text>
+        </Screen>
+      )
+    }
+    return (
     <Screen> 
-    <View style={styles.row}>
-    <Link href='/projects' asChild>
-    <Pressable>
-    <Text style={styles.projects}>Projects</Text>
-    </Pressable>
-    </Link>
-    <Link href='/' asChild>
-    <Pressable>
-    <Text style={styles.logout}>Log Out</Text>
-    </Pressable>
-    </Link>
-    </View>
-    <View style={styles.container}>
-    <View>
-  
-    </View>
-      <Text style={styles.title}>Schoolyard Bug Count</Text>
-    <Text style={styles.dscr_head}>
-        Description
-    </Text>
-      <Text style={styles.description}>
+      <NavBar/>
 
-        There are many ways of determining the health
-    of ecosystems. One is biodiversity. According to 
-    Merriam Webster dictionary Biodiversity: 
-    “biological diversity in an environment as
-    indicated by numbers of different species
-    of plants and animals”. In this project you will 
-    count the number of species of bugs you can find
-    in different ecosystems. 
-      </Text>
-    </View>
+      <View style={styles.container}>
+        <Text style={styles.title}>{project.name}</Text>
+        <Text style={styles.dscr_head}>Description</Text>
+        <Text style={styles.description}>{project.description}</Text>
 
-    <Link href="/field_1" asChild>
+      </View>
+
+    <Link href={{ pathname: "/field_1", params: { projectId: project.id } }} asChild>
         <Pressable>
             <Text style={styles.entry}>
                 Add New Journal Entry
