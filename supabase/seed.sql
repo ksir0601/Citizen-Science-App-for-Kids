@@ -7,9 +7,10 @@
 --                       teacher2@test.local   / password123
 -- Join codes: BUGCNT (open), WEATHR (open), TREHNT (closed)
 --
--- DO not change file, have Kelcie change. The same ids are in mock/mockData.js. 
+-- The same ids are in mock/mockData.js. Do not change file, direct change requests to Kelcie.
 --   1000...  teachers      2000...  kids
 --   3000...  projects      4000...  questions
+--   5000...  classes
 -- =====================================================================
 
 
@@ -55,20 +56,34 @@ values
 
 
 -- ---------------------------------------------------------------------
+-- 2b. CLASSES: Teacher 1 has one class with projects and one empty class
+-- (to test the "no projects yet" screen). Teacher 2 has one class.
+-- ---------------------------------------------------------------------
+insert into public.classes (id, teacher_id, name, student_count)
+values
+  ('50000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', 'Room 12 - 3rd Grade', 24),
+  ('50000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000001', 'Garden Club', 10),
+  ('50000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000002', 'Room 7 - 5th Grade', 28);
+
+
+-- ---------------------------------------------------------------------
 -- 3. PROJECTS: two open ones for Teacher 1, one closed one for Teacher 2.
 -- We set the join codes ourselves so they're easy to remember.
 -- ---------------------------------------------------------------------
-insert into public.projects (id, teacher_id, name, description, join_code, is_open)
+insert into public.projects (id, teacher_id, class_id, name, description, join_code, is_open)
 values
   ('30000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001',
+  '50000000-0000-0000-0000-000000000001',
    'Backyard Bug Count',
    'Explore your backyard or schoolyard for 10 minutes. Look under leaves, on flowers and near rocks. Count the bugs you find and tell us what kind they are. Look, but don''t touch!',
    'BUGCNT', true),
   ('30000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000001',
+  '50000000-0000-0000-0000-000000000001',
    'Weather Watchers',
    'Step outside at lunchtime. Look at the sky, check the temperature, and tell us what you notice.',
    'WEATHR', true),
   ('30000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000002',
+  '50000000-0000-0000-0000-000000000003',
    'Fall Leaf Hunt',
    'Collect fallen leaves on the playground and sort them by color.',
    'TREHNT', false);

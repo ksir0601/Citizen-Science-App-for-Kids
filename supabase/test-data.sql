@@ -1,8 +1,8 @@
 -- =====================================================================
 -- TEST DATA for the Citizen Science App for Kids
 --
--- Creates 2 sample projects (with questions) and 35 sample observations
--- for one teacher, so the website and app have realistic data to show.
+-- Creates 1 sample class with 2 projects (with questions) and 35 sample
+-- observations for one teacher, so the website and app have realistic data to show.
 --
 -- HOW TO USE
 --   1. Sign up a test teacher on the admin website (e.g. test.teacher@example.com).
@@ -21,6 +21,7 @@ declare
   v_teacher uuid;
   v_bugs   uuid;
   v_weather uuid;
+  v_class  uuid;
 
   q_saw   uuid;
   q_kind  uuid;
@@ -48,11 +49,19 @@ begin
   on conflict (id) do nothing;
 
   -- -------------------------------------------------------------------
+  -- Sample class (the website groups projects by class)
+  -- -------------------------------------------------------------------
+  insert into public.classes (teacher_id, name, student_count)
+  values (v_teacher, 'Sample Class', 25)
+  returning id into v_class;
+
+  -- -------------------------------------------------------------------
   -- Project 1: Backyard Bug Count
   -- -------------------------------------------------------------------
-  insert into public.projects (teacher_id, name, description)
+  insert into public.projects (teacher_id, class_id, name, description)
   values (
     v_teacher,
+    v_class,
     'Backyard Bug Count',
     'Explore your backyard or schoolyard for 10 minutes. Look under leaves, on flowers and near rocks. Count the bugs you find and tell us what kind they are. Look, but don''t touch!'
   )
@@ -90,9 +99,10 @@ begin
   -- -------------------------------------------------------------------
   -- Project 2: Weather Watchers
   -- -------------------------------------------------------------------
-  insert into public.projects (teacher_id, name, description)
+  insert into public.projects (teacher_id, class_id, name, description)
   values (
     v_teacher,
+    v_class,
     'Weather Watchers',
     'Step outside at lunchtime. Look at the sky, check the temperature, and tell us what you notice.'
   )
