@@ -1,14 +1,16 @@
 # Database design
 
-Status: **draft, for team review Prog Report 2** · Owner: Kelcie
+Status: **updates for team review Prog Report 3** · Owner: Kelcie
 
 ## Overview
 
-Five tables. Teachers own projects; each project has a list of questions and a join code; students join a project with the code and submit observations that answer those questions.
+Six tables. Teachers own classes and projects, and each project can belong to one of the teacher's classes; each project has a list of questions and a join code; students join a project with the code and submit observations that answer those questions.
 
 ```mermaid
 erDiagram
+    TEACHERS ||--o{ CLASSES : "teaches"}
     TEACHERS ||--o{ PROJECTS : "creates"
+    CLASSES |o--o{ PROJECTS : "groups"
     PROJECTS ||--o{ QUESTIONS : "asks"
     PROJECTS ||--o{ PROJECT_MEMBERS : "is joined by"
     PROJECTS ||--o{ OBSERVATIONS : "collects"
@@ -19,9 +21,17 @@ erDiagram
         text display_name
         timestamptz created_at
     }
+    CLASSES {
+        uuid id PK
+        uuid teacher_id FK
+        text name
+        int student_count "optional"
+        timestamptz created_at
+    }
     PROJECTS {
         uuid id PK
         uuid teacher_id FK
+        uuid class_id FK "optional"
         text name
         text description
         text join_code UK "6 letters, e.g. KTRWBP"
@@ -82,7 +92,18 @@ One row per teacher account. The `id` is the same as the Supabase Auth user id, 
 | Column | Type | Notes |
 | --- | --- | --- |
 | id | uuid | primary key, references the Auth user |
-| display_name | text | shown on the website, e.g. "Ms. Rivera" |
+| display_name | text | shown on the website, e.g. "Teacher 1" |
+| created_at | timestamptz | defaults to now |
+
+### classes
+Added Nov 19 (migration `20261116203046_add_classes.sql`). The website groups a teacher's projects by class.
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | uuid | primary key |
+| teacher_id | uuid | → teachers.id; defaults to the signed-in teacher. Deleting a teacher deletes their classes |
+| name | text | required, 1-100 characters, e.g. "Room 12 - 3rd Grade" |
+| student_count | int | optional, 1-500. Only the website uses it |
 | created_at | timestamptz | defaults to now |
 
 ### projects
@@ -90,6 +111,7 @@ One row per teacher account. The `id` is the same as the Supabase Auth user id, 
 | --- | --- | --- |
 | id | uuid | primary key |
 | teacher_id | uuid | → teachers.id; deleting a teacher deletes their projects |
+| class_id | uuid | optional → classes.id. Must be one of the teacher's own classes. Deleting a class keeps its projects and sets this to null |
 | name | text | required, e.g. "Backyard Bug Count" |
 | description | text | the explanation and instructions students read |
 | join_code | text | **unique**, 6 uppercase letters, generated automatically. Skips look-alike letters (I, L, O) |
@@ -159,7 +181,7 @@ Every table has Row Level Security turned on. The app and website use the public
 
 | Who | Can do |
 | --- | --- |
-| **Teacher** (logged in with email) | See, create, edit and delete **their own** projects and questions. See and delete observations in their own projects. Cannot see other teachers' projects |
+| **Teacher** (logged in with email) | See, create, edit and delete **their own** classes, projects and questions. Can only put a project in one of their own classes. See and delete observations in their own projects. Cannot see other teachers' projects |
 | **Student** (anonymous sign-in) | Join a project **only with its code**. See projects they've joined and those projects' questions. Add observations to joined projects that are open. See and edit **only their own** observations |
 | **Not signed in** | Nothing |
 

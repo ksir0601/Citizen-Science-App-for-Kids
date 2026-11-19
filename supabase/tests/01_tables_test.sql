@@ -2,10 +2,9 @@
 -- Run all tests with:  supabase test db
 -- Every test file starts with begin and ends with rollback, so the
 -- test data it adds or deletes is undone when it finishes
-
 -- Citation: This code was generated with the help of Claude.  This transcript document 'sup-pgTAP-tutorial.md'  
 -- the GenAI interaction that led to my solution regarding test building and security rules."
--- File Owner: Kelcie 
+-- File Owner: Kelcie
 -- =====================================================================
 begin;
 create extension if not exists pgtap with schema extensions;
