@@ -1,18 +1,25 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
-import { Link, useLocalSearchParams } from "expo-router";
+import { router, Link, useLocalSearchParams } from "expo-router";
 import Screen from "../components/Screen";
 import NavBar from "@/components/NavBar";
 import EditableField from "@/components/reviewEdit";
 import { questions } from "@/mock/mockData";
 import * as api from "@/mock/mockApi"
-
+import { useFormData } from "@/app/context/FormConext"
 
 export default function Review() {
   const { projectId } = useLocalSearchParams<{projectId: string }>();
+  const {data, resetData } = useFormData()
 
   const projectQuestions = questions
     .filter((q) => q.project_id === projectId)
     .sort((a, b) => a.position - b.position);
+
+  const handleSubmit = async () => {
+    await api.addObservation(projectId, data);
+    resetData()
+    router.replace({pathname: "/project_dscr", params: { projectId }})
+  }
 
  
 
@@ -36,7 +43,7 @@ export default function Review() {
             <Text style={styles.footerLeft}>Back</Text>
           </Pressable>
         </Link>
-        <Pressable onPress={api.addObservation}>
+        <Pressable onPress={handleSubmit}>
           <Text style={styles.footerRight}>Submit!</Text>
         </Pressable>
       </View>

@@ -10,6 +10,7 @@
 //   import * as api from './lib/api.js';        // after
 // =====================================================================
 import * as mock from './mockData.js';
+import * as crypto from "expo-crypto";
 
 // Copies of the lists, so adding rows doesn't change mockData.js.
 // Reloading the page or app resets everything.
