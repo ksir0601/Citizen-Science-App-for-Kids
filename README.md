@@ -44,9 +44,9 @@ Kids never create accounts or enter personal information.
 | Folder | What's in it |
 | --- | --- |
 | `apps/admin/` | Teacher admin website |
-| `apps/mobile/` | Kids' field app *(coming soon)* |
+| `apps/mobile/` | Kids' field app  |
 | `supabase/` | Database setup and migrations |
-| `docs/` | Design docs *(coming soon)* |
+| `docs/` | Design docs |
 | `.github/workflows/` | CI checks that run on every pull request |
 
 ---
@@ -129,7 +129,7 @@ If you change `.env.local`, stop and restart `npm run dev`. Vite only reads it a
  
 ---
  
-## Running the field app
+## Running the field mobile app
  
 ### 1. Install packages
  
@@ -137,8 +137,18 @@ If you change `.env.local`, stop and restart `npm run dev`. Vite only reads it a
 cd apps/mobile
 npm install
 ```
- 
-### 2. Start Expo
+### 2. Add the Supabase settings
+
+Copy `apps/mobile/.env.example` to `apps/mobile/.env.local` and fill in the same URL and publishable key the website uses:
+
+```
+EXPO_PUBLIC_SUPABASE_URL=https://YOUR-PROJECT-ID.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_...
+```
+
+`.env.local` is git-ignored. If you change it, restart with `npx expo start --clear`. Using local Supabase on a real phone? Use your computer's Wi-Fi IP instead of `127.0.0.1` (see the notes in `.env.example`).
+
+### 3. Start Expo
  
 ```bash
 npx expo start
