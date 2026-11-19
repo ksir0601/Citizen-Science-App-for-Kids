@@ -1,57 +1,48 @@
-import { Text, View, StyleSheet, Pressable } from "react-native";
-import { Link } from 'expo-router';
-import Screen from "../components/Screen";
-import { useState } from "react";
+import { Text, View, StyleSheet, Pressable} from "react-native";
+import { useLocalSearchParams, Link } from 'expo-router';
+import Screen from "@/components/Screen";
+import NavBar from "@/components/NavBar";
+import QuestionInput from "@/components/Switch";
+import { questions } from "@/mock/mockData";  
+import { useDraftAnswer } from "./hooks/useDraftAnswer";
+
+
+
 
 export default function Field_2() {
-    const [count, setCount] = useState(0);
+  const { projectId } = useLocalSearchParams<{ projectId: string }>();
+  const question = questions
+    .filter((q) => q.project_id === projectId)
+    .sort((a, b) => a.position - b.position)[1];
+  const {draft, setDraft, commit } = useDraftAnswer(question.id)
+ 
+
+
   return (
     <Screen> 
-     <View style={styles.row}>
-        <Link href='/projects' asChild>
-        <Pressable>
-        <Text style={styles.projects}>Projects</Text>
-        </Pressable>
-        </Link>
-        <Link href='/project_dscr'>
-            <Pressable>
-                <Text style={styles.proj_desc}>Projects Description</Text>
-            </Pressable>
-        </Link>
-        <Link href='/' asChild>
-        <Pressable>
-        <Text style={styles.logout}>Log Out</Text>
-        </Pressable>
-        </Link>
-        </View>
-      <View>
-      <Text style={styles.title}>Count every bug you spot, bit or small!</Text>
+      <NavBar/>
+    <View style={styles.container}>
+    <View>
+      <Text style={styles.description}>{question?.label}</Text>
+  
     </View>
-    
-      <View>
-        <Text>{count} </Text>
-        </View>
-
-    <View style={styles.counterRow}>
-        <Pressable style={styles.counterBottun}onPress={() => setCount(c => Math.max(0, c -1))}>
-            <Text style={styles.counterText}>-</Text>
-        </Pressable>
- 
-        <Pressable style={styles.counterBottun}onPress={() => setCount(count + 1)}>
-          <Text style={styles.counterText}>+</Text>
-        </Pressable>
-        </View>
-
-
+    {question && (
+        <QuestionInput
+          question={question}
+          draft={draft}
+          setDraft={setDraft}
+        />
+      )}
+    </View>
     <View style={styles.footerRow}>
-    <Link href="/field_1" asChild>
+    <Link href={{ pathname: '/field_1', params: { projectId } }} asChild>
         <Pressable>
             <Text style={styles.footerLeft}>
                 Back
             </Text>
         </Pressable>
     </Link>
-    <Link href="/field_3" asChild>
+    <Link href={{ pathname: '/field_3', params: { projectId } }} asChild onPress={commit}>
         <Pressable>
             <Text style={styles.footerRight}>
                 Next
@@ -59,6 +50,7 @@ export default function Field_2() {
         </Pressable>
     </Link>
     </View>
+
     </Screen>
   );
 }
@@ -82,45 +74,6 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: '#CCCCCC',
   },
-    dscr_head: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#CCCCCC',
-    textDecorationLine: "underline",
-    },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-  },
-    logout:{
-    fontSize: 14,
-    fontFamily: 'PlaypenSan-SemiBold',
-    paddingTop: 5,
-    marginLeft: 50,
-    color: '#CCCCCC'
-  },
-      proj_desc:{
-    fontSize: 14,
-    fontFamily: 'PlaypenSan-SemiBold',
-    paddingTop: 10,
-    textAlign: 'center',
-    color: '#CCCCCC'
-  },
-    projects:{
-    fontSize: 14,
-    fontFamily: 'PlaypenSan-SemiBold',
-    paddingTop: 5,
-    marginRight: 50,
-    color: '#CCCCCC'
-  },
-    entry: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#CCCCCC',
-    textAlign: 'center',
-  },
   counterBottun: {
     width: 44,
     height:44,
@@ -128,7 +81,6 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent: 'center'
   },
-
   counterText: {
     color: '#CCCCCC',
     fontFamily: 'PlaypenSans',
