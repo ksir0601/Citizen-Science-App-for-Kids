@@ -16,7 +16,7 @@
 
 do $$
 declare
-  v_email   text := 'test.teacher@example.com';   -- <-- CHANGE ME
+  v_email   text := 'teacher1@test.local';   -- <-- CHANGE ME
 
   v_teacher uuid;
   v_bugs   uuid;

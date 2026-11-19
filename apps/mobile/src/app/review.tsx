@@ -11,6 +11,7 @@ export default function Review() {
   const { projectId } = useLocalSearchParams<{projectId: string }>();
   const {data, resetData } = useFormData()
 
+
   const projectQuestions = questions
     .filter((q) => q.project_id === projectId)
     .sort((a, b) => a.position - b.position);
@@ -44,6 +45,7 @@ export default function Review() {
           </Pressable>
         </Link>
         <Pressable onPress={handleSubmit}>
+
           <Text style={styles.footerRight}>Submit!</Text>
         </Pressable>
       </View>

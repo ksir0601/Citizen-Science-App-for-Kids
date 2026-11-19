@@ -5,6 +5,10 @@
 -- The website and app reach the database as the
 -- role "authenticated" (signed in) or "anon" (not signed in), and
 -- Supabase passes the signed-in user's id in request.jwt.claim.sub
+
+-- Citation: This code was generated with the help of Claude.  This transcript document 'sup-pgTAP-tutorial.md'  
+-- the GenAI interaction that led to my solution regarding test building and security rules."
+-- File Owner: Kelcie 
 -- =====================================================================
 begin;
 create extension if not exists pgtap with schema extensions;
