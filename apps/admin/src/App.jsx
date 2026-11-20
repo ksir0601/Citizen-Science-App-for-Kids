@@ -4,8 +4,10 @@ import Navbar from './components/Navbar';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ClassPage from './pages/ClassPage';
+import CreateClassPage from './pages/CreateClassPage';
 import ProjectPage from './pages/ProjectPage';
 import NewProjectPage from './pages/NewProjectPage';
+import ResultsPage from './pages/ResultsPage';
 
 function App() {
     return (
@@ -20,8 +22,10 @@ function App() {
                 }
             >
                 <Route index element={<HomePage />} />
-                <Route path="classes/:classId" element={<ClassPage />} />
-                <Route path="classes/:classId/projects/:projectID" element={<ProjectPage />} />
+                <Route path="classes/new" element={<CreateClassPage />} />
+                <Route path="classes/:classID" element={<ClassPage />} />
+                <Route path="projects/:projectID" element={<ProjectPage />} />
+                <Route path="projects/:projectID/results" element={<ResultsPage />} />
                 <Route path="new-project" element={<NewProjectPage />} />
             </Route>
         </Routes>

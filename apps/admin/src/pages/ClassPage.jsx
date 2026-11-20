@@ -1,52 +1,67 @@
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { supabase } from '../Supabase';
-import { useAuth } from '../useAuth';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { getClass } from '../classes.js';
+import './ClassPage.css';
 
-// Minimal page needed for testing NewProjectPage
 function ClassPage() {
-    const { classId } = useParams();
-    const { user } = useAuth();
-    const navigate = useNavigate();
-    const [name, setName] = useState('');
-    const [studentCount, setStudentCount] = useState('');
-    const [error, setError] = useState('');
+    const { classID } = useParams();
+    const [loaded, setLoaded] = useState({ id: null, classInfo: null, error: '' });
 
-    async function handleSubmit(e) {
-        e.preventDefault();
+    useEffect(() => {
+        getClass(classID).then(({ data, error }) => (
+            setLoaded({ id: classID, classInfo: data, error: error?.message || '' })
+        ));
+    }, [classID]);
 
-        // Assumes supabse has a 'classes' table with 'teacher_id', 'name', 'student_count' columns
-        const { data, error } = await supabase
-            .from('classes')
-            .insert({ teacher_id: user.id, name: name.trim(), student_count: Number(studentCount) })
-            .select('id')
-            .single();
+    if (loaded.id !== classID) return <div className='class-page'>Loading...</div>;
 
-        if (error) return setError(error.message);
-        navigate(`/new-project?class=${data.id}`);
+    if (loaded.error) {
+        return (
+            <div className='class-page'>
+                <p role='alert'>Couldn't load this class: {loaded.error}</p>
+            </div>
+        );
     }
 
-    if (classId !== 'new') return <h1>Class</h1>;
+    const { classInfo } = loaded;
+    if (!classInfo) {
+        return (
+            <div className='class-page'>
+                <h1>Class Not Found</h1>
+                <p>This class doesn't exist, or it belongs to another teacher.</p>
+                <Link to='/classes/new'>Add a Class</Link>
+            </div>
+        );
+    }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h1>New Class</h1>
+        <div className='class-page'>
+            <header>
+                <div>
+                    <h1>{classInfo.name}</h1>
+                    {classInfo.student_count && <p>{classInfo.student_count} students</p>}
+                </div>
+                <Link to={`/new-project?class=${classInfo.id}`}>Add New Project</Link>
+            </header>
 
-            <label htmlFor='name'>Class Name</label>
-            <input id='name' required value={name} onChange={(e) => setName(e.target.value)} />
-
-            <label htmlFor='student-count'>Number of Students</label>
-            <input
-                id='student-count'
-                type='number'
-                min={1}
-                required
-                value={studentCount}
-                onChange={(e) => setStudentCount(e.target.value)} />
-
-            {error && <p role='alert'>{error}</p>}
-            <button type='submit'>Create Class</button>
-        </form>
+            <section>
+                <h2>Projects</h2>
+                {classInfo.projects.length === 0 ? (
+                    <p>No projects in this class yet.</p>
+                ) : (
+                    <ul>
+                        {classInfo.projects.map((p) => (
+                            <li key={p.id}>
+                                <Link to={`/projects/${p.id}`}>
+                                    <strong>{p.name}</strong>
+                                    <span>{p.is_open ? p.join_code : 'Closed'}</span>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </section>
+        </div>
     );
 }
 

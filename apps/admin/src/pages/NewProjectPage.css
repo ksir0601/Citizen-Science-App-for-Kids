@@ -70,6 +70,11 @@
     opacity: 0.85;
 }
 
+.new-project-page small a {
+    color: var(--sand);
+    font-weight: 700;
+}
+
 .new-project-page p {
     margin: 0 0 16px;
     font-size: 14px;

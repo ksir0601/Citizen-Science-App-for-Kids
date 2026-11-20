@@ -1,3 +1,12 @@
+/* Colors shared by every page */
+:root {
+    --navy: #3d405b;
+    --cream: #f4f1de;
+    --coral: #e07a5f;
+    --sage: #81b29a;
+    --sand: #f2cc8f;
+}
+
 *,
 *::before,
 *::after {
@@ -7,4 +16,17 @@
 body {
     margin: 0;
     font-family: 'Nunito', system-ui, sans-serif;
+}
+
+/* "Loading..." while checking if the teacher is signed in (RequireAdmin in AuthContext.jsx) */
+.loading-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--navy);
+    color: var(--cream);
+    font-size: 16px;
+    font-weight: 700;
+    opacity: 0.9;
 }

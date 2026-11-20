@@ -1,0 +1,178 @@
+.home-page {
+    min-height: 100vh;
+    padding: 40px 32px 60px;
+    background: var(--navy);
+    color: var(--cream);
+}
+
+.home-page > * {
+    max-width: 900px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.home-page h1 {
+    margin-bottom: 8px;
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.home-page h1:first-child {
+    margin-top: 0;
+}
+
+.home-page h2 {
+    margin: 0 0 14px;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.home-page p {
+    margin: 0 0 24px;
+    font-size: 15px;
+    opacity: 0.85;
+}
+
+.home-page section p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.home-page p[role='alert'] {
+    color: #f4a690;
+    font-weight: 600;
+    opacity: 1;
+}
+
+.home-page a {
+    color: var(--sand);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Stats for Open Projects, Observations, Students */
+.home-page dl {
+    margin: 16px auto 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.home-page dl > div {
+    min-width: 150px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: rgba(244, 241, 222, 0.06);
+}
+
+.home-page dt {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.home-page dd {
+    margin: 4px 0 0;
+    color: var(--sand);
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.home-page section {
+    margin-bottom: 24px;
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(244, 241, 222, 0.06);
+}
+
+/* Getting Started steps */
+.home-page .steps {
+    margin: 0;
+    padding-left: 22px;
+}
+
+.home-page .steps li {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(244, 241, 222, 0.1);
+    font-size: 14px;
+}
+
+.home-page .steps li:last-child {
+    border-bottom: none;
+}
+
+.home-page .steps strong {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 15px;
+}
+
+.home-page .steps span {
+    display: block;
+    opacity: 0.75;
+}
+
+/* Create a Project button */
+.home-page .steps a {
+    margin-top: 12px;
+    padding: 10px 20px;
+    display: inline-block;
+    border-radius: 8px;
+    background: var(--cream);
+    color: var(--navy);
+    font-size: 14px;
+}
+
+.home-page .steps a:hover {
+    background: var(--sand);
+}
+
+/* Recent observations: name, project, date. Each row links to the results. */
+.home-page .recent {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.home-page .recent a {
+    padding: 10px 8px;
+    display: grid;
+    grid-template-columns: minmax(90px, 160px) 1fr auto;
+    gap: 12px;
+    border-bottom: 1px solid rgba(244, 241, 222, 0.1);
+    color: inherit;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.home-page .recent li:last-child a {
+    border-bottom: none;
+}
+
+.home-page .recent a:hover {
+    border-radius: 8px;
+    background: rgba(244, 241, 222, 0.06);
+}
+
+.home-page .recent time {
+    white-space: nowrap;
+    opacity: 0.7;
+}
+
+@media (max-width: 720px) {
+    .home-page {
+        padding: 24px 16px 40px;
+    }
+
+    .home-page .recent a {
+        grid-template-columns: 1fr auto;
+    }
+
+    .home-page .recent span {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        opacity: 0.75;
+    }
+}

@@ -1,0 +1,125 @@
+.class-page {
+    min-height: 100vh;
+    padding: 40px 32px 60px;
+    background: var(--navy);
+    color: var(--cream);
+}
+
+.class-page > * {
+    max-width: 900px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.class-page h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.class-page h2 {
+    margin: 0 0 14px;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.class-page p {
+    margin: 0 0 16px;
+    font-size: 14px;
+}
+
+.class-page p[role='alert'] {
+    color: #f4a690;
+    font-weight: 600;
+}
+
+.class-page a {
+    color: var(--sand);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Class name, number of students and Add New Project */
+.class-page > header {
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+/* Number of students under the name */
+.class-page > header p {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.85;
+}
+
+.class-page > header a {
+    flex-shrink: 0;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: var(--cream);
+    color: var(--navy);
+    font-size: 15px;
+}
+
+.class-page > header a:hover {
+    background: var(--sand);
+}
+
+.class-page section {
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(244, 241, 222, 0.06);
+}
+
+.class-page section p {
+    margin: 0;
+    opacity: 0.75;
+}
+
+.class-page ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* One row per project: name and code. The whole row links to the project. */
+.class-page li a {
+    padding: 12px 8px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid rgba(244, 241, 222, 0.1);
+    color: inherit;
+    font-weight: 400;
+}
+
+.class-page li:last-child a {
+    border-bottom: none;
+}
+
+.class-page li a:hover {
+    border-radius: 8px;
+    background: rgba(244, 241, 222, 0.06);
+}
+
+.class-page li strong {
+    font-size: 15px;
+}
+
+/* Project code, or Closed */
+.class-page li span {
+    color: var(--sand);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+@media (max-width: 720px) {
+    .class-page {
+        padding: 24px 16px 40px;
+    }
+}
