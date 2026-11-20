@@ -16,6 +16,48 @@
     margin-left: 260px;
 }
 
+/* Banner and "Citizen Science Jr" at the top */
+.navbar .brand {
+    margin-bottom: 16px;
+    display: block;
+    text-align: center;
+}
+
+.navbar .brand img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+}
+
+.navbar .brand span {
+    margin-top: 10px;
+    display: block;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.navbar .brand:hover span {
+    color: var(--sand);
+}
+
+/* Home link */
+.navbar .home {
+    margin-bottom: 20px;
+    padding: 9px 12px;
+    display: block;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.navbar .home:hover {
+    background: rgba(244, 241, 222, 0.06);
+}
+
+.navbar .home.active {
+    background: rgba(244, 241, 222, 0.14);
+}
+
 .navbar h2 {
     margin: 0 8px 20px;
     font-size: 12px;
@@ -66,24 +108,6 @@
     text-decoration: none;
 }
 
-.navbar .class-row {
-    padding: 0 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.navbar .class-row a {
-    padding: 6px 0;
-    font-size: 16px;
-    font-weight: 800;
-}
-
-.navbar .class-row a:hover,
-.navbar .class-row a.active {
-    color: var(--sand);
-}
-
 .navbar button {
     padding: 4px 8px;
     border: none;
@@ -98,6 +122,28 @@
 
 .navbar button:hover {
     background: rgba(244, 241, 222, 0.1);
+}
+
+/* Class name: click to show or hide its projects */
+.navbar .class-row {
+    width: 100%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 800;
+    text-align: left;
+}
+
+.navbar .class-row:hover,
+.navbar .class-row[aria-expanded='true'] {
+    color: var(--sand);
+}
+
+/* "No projects yet." under an open class */
+.navbar section p {
+    margin: 4px 0 0 20px;
 }
 
 .navbar .project {

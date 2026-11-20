@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { supabase } from '../Supabase';
-import { useAuth} from '../useAuth';
+import { createProjectInClass, getMyClasses } from '../classes.js';
 import './NewProjectPage.css';
 
 const questionTypes = [
@@ -11,27 +10,14 @@ const questionTypes = [
     { value: 'text', label: 'Text' },
 ];
 
-// 0/O and 1/I left out for clarity
-const codeChars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
-
-function makeProjectCode() {
-    const bytes = crypto.getRandomValues(new Uint8Array(6));
-    return Array.from(bytes, (b) => codeChars[b % codeChars.length]).join('');
-}
-
 // fyi key is not saved
 function newQuestion() {
-    return { key: crypto.randomUUID(), type: 'text', label: '', required: false, optios: ['', ''] };
+    return { key: crypto.randomUUID(), type: 'text', label: '', required: false, options: ['', ''] };
 }
 
-function validate(classId, name, projectCode, questions) {
-    const errors = [];
-    if (!classId) errors.class = 'Choose a class.';
+function validate(name, questions) {
+    const errors = {};
     if (!name.trim()) errors.name = 'Give the project a name.';
-    if (projectCode !== null && !/^[A-Za-z0-9]{4,20}$/.test(projectCode.trim())) {
-        errors['project-code'] = 'The project code can only include letters and numbers and must be between 4 and 20 characters long.';
-    }
-
     if (questions.length === 0) errors['add-question'] = 'Add at least one question';
 
     questions.forEach((q) => {
@@ -43,7 +29,6 @@ function validate(classId, name, projectCode, questions) {
     return errors;
 }
 
-// Shows the error message under the corresponding field
 function FieldError({ errors, id }) {
     if (!errors[id]) return null;
     return <p role='alert' id={`${id}-error`}>{errors[id]}</p>;
@@ -54,11 +39,10 @@ function errorProps(errors, id) {
 }
 
 function NewProjectPage() {
-    const { user } = useAuth();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const [loaded, setLoaded] = useState({ done: false, classes: [], error: '' });
     const [classId, setClassId] = useState(searchParams.get('class') || '');
+    const [classes, setClasses] = useState({ done: false, list: [], error: '' });
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [questions, setQuestions] = useState(() => [newQuestion()]);
@@ -68,14 +52,12 @@ function NewProjectPage() {
     const [created, setCreated] = useState(null);
     const [copied, setCopied] = useState(false);
 
-    // Assumes Supabase has a 'classes' table with 'id', 'name' columns
-    // Assumes RLS is turned on in Supabase
     useEffect(() => {
-        supabase
-            .from('classes')
-            .select('id, name')
-            .order('name')
-            .then(({ data, error }) => setLoaded({ done: true, classes: data || [], error: error?.message || '' }));
+        getMyClasses().then(({ data, error }) => setClasses({
+            done: true,
+            list: (data || []).filter((c) => c.id !== 'no-class'),
+            error: error?.message || '',
+        }));
     }, []);
 
     function updateQuestion(key, changes) {
@@ -102,72 +84,37 @@ function NewProjectPage() {
         updateQuestion(q.key, { options: q.options.filter((o, i) => i !== index) });
     }
 
-    // Assumes supbase has a 'projects' table with 'class_id', 'teacher_id', 'name', 'description', and 'project_code' columns.
-    // Assumes supabase has an auto-generated 'id' column
-    // Assumes 'project-code' column is UNIQUE
-    async function insertProject() {
-        for (let attempt = 0; attempt < 5; attempt++) {
-            const result = await supabase
-                .from('projects')
-                .insert({
-                    class_id: classId,
-                    teacher_id: user.id,
-                    name: name.trim(),
-                    description: description.trim(),
-                    project_code: makeProjectCode(),
-                })
-                .select('id, project_code')
-                .single();
-            
-                // 23505 is the supabase/postgreSQL error code for a Project Code being taken
-            if (result.error?.code !== '23505') return result;
-        }
-        return { data: null, error: { message: 'Couldn\'t make a unique Project Code. Please try again.'} };
-    }
-
     async function handleSubmit(e) {
         e.preventDefault();
         setError('');
 
-        // Errors are updated as the teacher fixes them
         setSubmitted(true);
 
-        // Jumps to the first field with an error
-        const found = validate(classId, name, questions);
+        const found = validate(name, questions);
         const firstProblem = Object.keys(found)[0];
         if (firstProblem) return document.getElementById(firstProblem)?.focus();
 
+        // PLACEHOLDER
         setSaving(true);
-        try {
-            const { data: project, error } = await insertProject();
-            if (error) return setError(error.message);
+        const { data: project, error } = await createProjectInClass(
+            name.trim(),
+            description.trim(),
+            questions.map((q) => ({
+                type: q.type,
+                label: q.label.trim(),
+                required: q.required,
+                options: q.type === 'dropdown' ? q.options.map((o) => o.trim()).filter(Boolean) : null,
+            })),
+            classId || null,
+        );
+        setSaving(false);
 
-            // Assumes supabase has a 'questions' table with 'project_id', 'position', 'type', 'label', 'required', 'options' columns and that 'options' is a text array that is only used by dropdowns
-            const { error: questionsError } = await supabase.from('questions').insert(
-                questions.map((q, i) => ({
-                    project_id: project.id,
-                    position: i,
-                    type: q.type,
-                    label: q.label.trim(),
-                    required: q.required,
-                    options: q.type === 'dropdown' ? q.options.map((o) => o.trim()).filter(Boolean) : null,
-                })),
-            );
-
-            // Prevents a project being saved with no questions, in the event that a project is successfully saved but the questions are not
-            if (questionsError) {
-                await supabase.from('projects').delete().eq('id', project.id);
-                return setError(questionsError.message);
-            }
-
-            setCreated({ id: project.id, projectCode: project.project_code });
-        } finally {
-            setSaving(false);
-        }
+        if (error) return setError(error.message);
+        setCreated({ id: project.id, projectCode: project.join_code });
     }
 
-    async function copyProjectcode() {
-        await navigator.clipboard.writeText(created.projectcode);
+    async function copyProjectCode() {
+        await navigator.clipboard.writeText(created.projectCode);
         setCopied(true);
     }
 
@@ -180,67 +127,47 @@ function NewProjectPage() {
         setSubmitted(false);
     }
 
-    if (!loaded.done) return <div className='new-project-page'>Loading...</div>;
-
-    if (loaded.error) {
-        return (
-            <div className='new-project-page'>
-                <p role='alert'>Couldn't load your classes: {loaded.error}</p>
-            </div>
-        );
-    }
-
-    if (loaded.classes.length === 0) {
-        return (
-            <div className='new-project-page'>
-                <h1>New Project</h1>
-                <p>Add a class before creating a project.</p>
-                <Link to='/classes/new'>Add a Class</Link>
-            </div>
-        );
-    }
-
     if (created) {
         return (
             <div className ='new-project-page'>
                 <h1>Project Created</h1>
                 <p>Students join '{name.trim()}' in the app with this code:</p>
-                <p className='join-code'>{created.joinCode}</p>
+                <p className='join-code'>{created.projectCode}</p>
 
-                <button type='button' onClick={copyProjectcode}>{copied ? 'Copied!' : 'Copy Project Code'}</button>
-                <Link to={`/classes/${classId}/projects/${created.id}`}>View Project</Link>
+                <button type='button' onClick={copyProjectCode}>{copied ? 'Copied!' : 'Copy Project Code'}</button>
+                <Link to={`/projects/${created.id}`}>View Project</Link>
                 <button type='button' onClick={startOver}>Create Another Project</button>
             </div>
         )
     }
 
-    const errors = submitted ? validate(classId, name, questions) : {};
+    const errors = submitted ? validate(name, questions) : {};
 
     return (
         <div className='new-project-page'>
             <h1>New Project</h1>
 
             <form onSubmit={handleSubmit} noValidate>
-                <label htmlFor='class'>Class</label>
-                <select
-                    id='class'
-                    required
-                    {...errorProps(errors, 'class')}
-                    value={classId}
-                    onChange={(e) => setClassId(e.target.value)}>
-                    <option value='' disabled>Choose a class</option>
-                    {loaded.classes.map((c) => (
-                        <option key={c.id} value={c.id}>{c.name}</option>
-                    ))}
+                    <label htmlFor='class'>Class</label>
+                    <select
+                        id='class'
+                        disabled={!classes.done}
+                        value={classId}
+                        onChange={(e) => setClassId(e.target.value)}>
+                        <option value=''>{classes.done ? 'No Class' : 'Loading classes...'}</option>
+                        {classes.list.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </select>
-                    <FieldError errors={errors} id='class' />
+                    {classes.error && <p role='alert'>Couldn't load your classes: {classes.error}</p>}
+                    {classes.done && !classes.error && classes.list.length === 0 && (
+                        <small>You don't have any classes yet. <Link to='/classes/new'>Add a Class</Link></small>
+                    )}
 
                     <label htmlFor='name'>Project Name</label>
                     <input
                         id='name'
                         required
                         {...errorProps(errors, 'name')}
-                        maxLength={80}
+                        maxLength={100}
                         value={name}
                         onChange={(e) => setName(e.target.value)} />
                     <FieldError errors={errors} id='name' />
@@ -265,6 +192,7 @@ function NewProjectPage() {
                                     id={`label-${q.key}`}
                                     required
                                     {...errorProps(errors, `label-${q.key}`)}
+                                    maxLength={200}
                                     value={q.label}
                                     onChange={(e) => updateQuestion(q.key, { label: e.target.value })} />
                                 <FieldError errors={errors} id={`label-${q.key}`} />
@@ -297,7 +225,7 @@ function NewProjectPage() {
                                                         aria-label={`Question ${i + 1} option ${j + 1}`}
                                                         value={o}
                                                         onChange={(e) => updateOption(q, j, e.target.value)} />
-                                                    
+
                                                     <button
                                                         type='button'
                                                         onClick={() => removeOption(q, j)}
@@ -332,7 +260,6 @@ function NewProjectPage() {
                             </button>
                     </fieldset>
 
-                    {/* Errors from Supabase */}
                     {error && <p role='alert'>{error}</p>}
 
                     <button type='submit' disabled={saving}>{saving ? 'Creating Project...' : 'Create Project'}</button>
