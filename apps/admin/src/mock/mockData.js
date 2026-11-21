@@ -17,10 +17,37 @@ export const kids = [
   { id: '20000000-0000-0000-0000-000000000004', nickname: 'Sam' },
 ];
 
+// Same three classes as section "2b. CLASSES" in seed.sql.
+// Garden Club has no projects on purpose (tests the empty state).
+export const classes = [
+  {
+    id: '50000000-0000-0000-0000-000000000001',
+    teacher_id: '10000000-0000-0000-0000-000000000001',
+    name: 'Room 12 - 3rd Grade',
+    student_count: 24,
+    created_at: '2026-09-01T16:00:00Z',
+  },
+  {
+    id: '50000000-0000-0000-0000-000000000002',
+    teacher_id: '10000000-0000-0000-0000-000000000001',
+    name: 'Garden Club',
+    student_count: 10,
+    created_at: '2026-09-02T16:00:00Z',
+  },
+  {
+    id: '50000000-0000-0000-0000-000000000003',
+    teacher_id: '10000000-0000-0000-0000-000000000002',
+    name: 'Room 7 - 5th Grade',
+    student_count: 28,
+    created_at: '2026-09-01T17:00:00Z',
+  },
+];
+
 export const projects = [
   {
     id: '30000000-0000-0000-0000-000000000001',
     teacher_id: '10000000-0000-0000-0000-000000000001',
+    class_id: '50000000-0000-0000-0000-000000000001', // Room 12
     name: 'Backyard Bug Count',
     description: "Explore your backyard or schoolyard for 10 minutes. Look under leaves, on flowers and near rocks. Count the bugs you find and tell us what kind they are. Look, but don't touch!",
     join_code: 'BUGCNT',
@@ -30,6 +57,7 @@ export const projects = [
   {
     id: '30000000-0000-0000-0000-000000000002',
     teacher_id: '10000000-0000-0000-0000-000000000001',
+    class_id: '50000000-0000-0000-0000-000000000001', // Room 12
     name: 'Weather Watchers',
     description: 'Step outside at lunchtime. Look at the sky, check the temperature, and tell us what you notice.',
     join_code: 'WEATHR',
@@ -39,6 +67,7 @@ export const projects = [
   {
     id: '30000000-0000-0000-0000-000000000003',
     teacher_id: '10000000-0000-0000-0000-000000000002',
+    class_id: '50000000-0000-0000-0000-000000000003', // Room 7
     name: 'Fall Leaf Hunt',
     description: 'Collect fallen leaves on the playground and sort them by color.',
     join_code: 'TREHNT',
