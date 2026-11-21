@@ -10,11 +10,11 @@ import { supabase } from './supabaseClient';
 // SIGNING IN 
 //=============================================
 
-// CAll once when app opens, resuse last time's sign on
+// CAll once when app opens, reuse last time's sign on
 // Otherwise sign in anonymously
 // signInAs() is replaced by startKidsSession() and must be called before joinProject() or getMyProjects(
 export async function startKidsSession() {
-    const { data } = await supabase.auth.getSession();
+    const { data, error } = await supabase.auth.getSession();
     if (error) return { data: null, error };
     if (data.session) return { data: data.session.user, error: null };
     
