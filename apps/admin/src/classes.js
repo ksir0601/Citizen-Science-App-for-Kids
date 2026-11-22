@@ -1,35 +1,31 @@
-// PLACEHOLDERS 
-import * as api from './mock/mockApi.js';
-import * as mock from './mock/mockData.js';
+// Classes for the pages, from the real database (lib/api.js).
+// Same function names and data shapes as the mock version, so the pages don't change.
+// The database's security rules (RLS) make sure a teacher only ever gets their own classes.
+import * as api from './lib/api.js';
 
-const teacherId = mock.teachers[0].id;
-const classes = [...(mock.classes || [])];
-const projectClasses = {};
 const fail = (message) => ({ data: null, error: { message } });
 
-function classOf(project) {
-    return projectClasses[project.id] ?? project.class_id ?? null;
-}
+// Supabase error codes that just mean "no such row" (or a bad id in the URL)
+const NOT_FOUND = ['PGRST116', '22P02'];
 
+// The teacher's classes A to Z, each with its projects, plus a "No Class" group
+// at the end for projects that aren't in a class. Used by the Navbar and NewProjectPage.
 export async function getMyClasses() {
-    const { data: projects, error } = await api.getMyProjects();
+    const [classes, noClass] = await Promise.all([api.getMyClasses(), api.getMyProjects('none')]);
+    const error = classes.error || noClass.error;
     if (error) return { data: null, error };
 
-    const data = classes
-        .filter((c) => c.teacher_id === teacherId)
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map((c) => ({ ...c, projects: projects.filter((p) => classOf(p) === c.id) }));
-
-    const noClass = projects.filter((p) => !classOf(p));
-    if (noClass.length > 0) data.push({ id: 'no-class', name: 'No Class', projects: noClass });
-
+    const data = [...classes.data];
+    if (noClass.data.length > 0) data.push({ id: 'no-class', name: 'No Class', projects: noClass.data });
     return { data, error: null };
 }
 
+// One class with its projects. data is null if it doesn't exist or belongs to another teacher.
 export async function getClass(classId) {
-    const { data, error } = await getMyClasses();
-    if (error) return { data: null, error };
-    return { data: data.find((c) => c.id === classId && c.id !== 'no-class') || null, error: null };
+    if (classId === 'no-class') return { data: null, error: null };
+    const { data, error } = await api.getClass(classId);
+    if (error && NOT_FOUND.includes(error.code)) return { data: null, error: null };
+    return { data, error };
 }
 
 export async function createClass(name, studentCount) {
@@ -38,27 +34,12 @@ export async function createClass(name, studentCount) {
     if (studentCount !== null && !(Number.isInteger(studentCount) && studentCount >= 1 && studentCount <= 500)) {
         return fail('Number of students must be a whole number from 1 to 500');
     }
-
-    const newClass = {
-        id: crypto.randomUUID(),
-        teacher_id: teacherId,
-        name: name.trim(),
-        student_count: studentCount,
-        created_at: new Date().toISOString(),
-    };
-    classes.push(newClass);
-    return { data: newClass, error: null };
+    return api.createClass(name, studentCount);
 }
 
-// PLACEHOLDER 
+// Creates the project and its questions. The database makes the join code
+// and only accepts one of the teacher's own classes.
 export async function createProjectInClass(name, description, questions, classId) {
-    if (classId && !classes.some((c) => c.id === classId && c.teacher_id === teacherId)) {
-        return fail('Choose one of your own classes');
-    }
-
-    const { data: project, error } = await api.createProject(name, description, questions);
-    if (error) return { data: null, error };
-
-    projectClasses[project.id] = classId || null;
-    return { data: { ...project, class_id: classId || null }, error: null };
+    const realClassId = classId && classId !== 'no-class' ? classId : null;
+    return api.createProject(name, description, questions, realClassId);
 }

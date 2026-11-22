@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import * as api from '../mock/mockApi.js';
+import * as api from '../lib/api.js';
 import { loadProject, questionTypeLabels } from '../observations.js';
 import './ProjectPage.css';
 

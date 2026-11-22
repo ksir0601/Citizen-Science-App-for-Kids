@@ -1,9 +1,11 @@
 import { Stack  } from "expo-router";
 import AppBanner from "../components/appBanner";
 import { FormDataProvider } from "@/app/context/FormConext";
+import { ProjectProvider } from "@/lib/ProjectContext";
 
 export default function RootLayout() {
   return (
+  <ProjectProvider>
     <FormDataProvider>
       <Stack screenOptions={{ header: () => <AppBanner />}}>
         <Stack.Screen name="index" />
@@ -15,5 +17,6 @@ export default function RootLayout() {
         <Stack.Screen name="field_4" />
       </Stack>
     </FormDataProvider>
+  </ProjectProvider>
   );
 }

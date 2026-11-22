@@ -1,26 +1,10 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import banner from '../assets/banner.png';
-import * as mock from '../mock/mockData.js';
+import { getMyClasses } from '../classes.js';
 import { useAuth } from '../useAuth';
 import './Navbar.css'
 
-// PLACEHOLDER 
-async function getMyClasses() {
-    if (!mock.classes) return { data: null, error: { message: 'Classes aren\'t in the mock data yet.' } };
-
-    // Teacher 1, the mock API's default teacher
-    const teacherId = mock.teachers[0].id;
-    const data = mock.classes
-        .filter((c) => c.teacher_id === teacherId)
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map((c) => ({ ...c, projects: mock.projects.filter((p) => p.class_id === c.id) }));
-
-    const noClass = mock.projects.filter((p) => p.teacher_id === teacherId && !p.class_id);
-    if (noClass.length > 0) data.push({ id: 'no-class', name: 'No Class', projects: noClass });
-
-    return { data, error: null };
-}
 
 function Navbar() {
     const { user, signOut } = useAuth();

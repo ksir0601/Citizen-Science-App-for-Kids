@@ -3,7 +3,7 @@ import ScreenTitle from "../components/ScreenTitle";
 import Screen from "../components/Screen";
 import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
-import * as api from "../mock/mockApi"
+import { useProject } from "@/lib/ProjectContext";
 
 
 export default function Index() {
@@ -12,20 +12,18 @@ export default function Index() {
   const router = useRouter();
   const [projectCode, setProjectCode] = useState('');
   const [error, setError] = useState('');
+  const { join: joinWithCode, nickname, setNickname } = useProject();
 
 
   const join = async () => {
     try {
-      const result: any = await api.joinProject(projectCode)
+      const { project, error: joinError } = await joinWithCode(projectCode);
 
-      const failed =
-      !result || result.ok === false || result.success === false || !!result.error;
-
-      if (failed) {
+      if (joinError || !project) {
+        console.log("joinProject failed:", joinError);
         setError("Oops it looks like that is the wrong project code!"); 
         return;
       }
-      const project = result?.data ?? result;
       router.push({pathname: '/project_dscr', params: { projectId: String(project.id)}} as any);
     } catch (err) {
       console.log("joinProject failed:", err)
@@ -36,10 +34,13 @@ export default function Index() {
     <Screen>
       <ScreenTitle>Citizen Science Jr</ScreenTitle>
       <View style={styles.inputGroup}>
-      <Text style={styles.label}>Username</Text>
+      <Text style={styles.label}>Nickname</Text>
       <TextInput 
       style={styles.input}
       placeholder=""
+      maxLength={30}
+      value={nickname}
+      onChangeText={setNickname}
       />
       </View>
       <View style={styles.inputGroup}>

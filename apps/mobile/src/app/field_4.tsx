@@ -3,17 +3,18 @@ import { Link, useLocalSearchParams } from 'expo-router';
 import Screen from "../components/Screen";
 import NavBar from "@/components/NavBar";
 import QuestionInput from "@/components/Switch";
-import { questions } from "@/mock/mockData"; 
+import { useProject } from "@/lib/ProjectContext"; 
 import { useDraftAnswer } from "./hooks/useDraftAnswer";
 
 
-export default function Field_3() {
+export default function Field_4() {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
+  const { questions } = useProject();
   const question = questions
     .filter((q) => q.project_id === projectId)
     .sort((a, b) => a.position - b.position)[3];
 
-    const {draft, setDraft, commit} = useDraftAnswer(question.id)
+    const {draft, setDraft, commit} = useDraftAnswer(question?.id ?? "")
  
     return (
     <Screen> 
@@ -34,10 +35,8 @@ export default function Field_3() {
     
        
 
-
-
     <View style={styles.footerRow}>
-    <Link href={{ pathname: '/field_3', params: { projectId } }} asChild>
+    <Link href={{ pathname: '/field_3', params: { projectId } }} asChild onPress={commit}>
         <Pressable>
             <Text style={styles.footerLeft}>
                 Back
