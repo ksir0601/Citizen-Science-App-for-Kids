@@ -27,7 +27,7 @@ export default function Number_entry({value, onChange}: Props ){
           style={styles.input}
           onChangeText={handleChange}
           value={String(value)}
-          placeholder="Enter a number here"
+          placeholder=""
           keyboardType="numeric"
         />
         </View>

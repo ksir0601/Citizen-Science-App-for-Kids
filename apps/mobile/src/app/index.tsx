@@ -3,9 +3,9 @@ import ScreenTitle from "../components/ScreenTitle";
 import Screen from "../components/Screen";
 import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { useAnonymousSignIn} from "@/app/hooks/auth";
+// import { useAnonymousSignIn} from "@/app/hooks/auth";
 import * as api from "../mock/mockApi";
-// import {kids} from "../mock/mockData";
+import {kids} from "../mock/mockData";
 
 
 
@@ -16,8 +16,9 @@ export default function Index() {
   const [error, setError] = useState('')
 
   
-  const { session } = useAnonymousSignIn();
-  const userId = session?.user.id;
+  // const { session } = useAnonymousSignIn();
+  // const userId = session?.user.id;
+  const userId = kids[0].id;
 
   const join = async () => {
     try {
