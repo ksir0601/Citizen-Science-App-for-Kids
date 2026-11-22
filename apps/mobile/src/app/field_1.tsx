@@ -8,6 +8,7 @@ import { useDraftAnswer } from "./hooks/useDraftAnswer";
 
 export default function Field_1() {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
+  const {userId } = useLocalSearchParams<{userId: string}>(); 
   const project = projects.find((p) => p.id === projectId);
   const question = questions
     .filter((q) => q.project_id === projectId)
@@ -36,7 +37,7 @@ export default function Field_1() {
     )}
 
     </View>
-    <Link href={{ pathname: '/field_2', params: { projectId } }} asChild onPress={commit}>
+    <Link href={{ pathname: '/field_2', params: { projectId, userId } }} asChild onPress={commit}>
         <Pressable>
             <Text style={styles.entry}>
                 Next

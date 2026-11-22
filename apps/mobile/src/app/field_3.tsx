@@ -9,6 +9,8 @@ import { useDraftAnswer } from "./hooks/useDraftAnswer";
 
 export default function Field_3() {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
+  const { userId } = useLocalSearchParams<{userId: string}>();
+
   const question = questions
     .filter((q) => q.project_id === projectId)
     .sort((a, b) => a.position - b.position)[2];
@@ -37,14 +39,14 @@ export default function Field_3() {
 
 
     <View style={styles.footerRow}>
-    <Link href={{ pathname: '/field_2', params: { projectId } }} asChild>
+    <Link href={{ pathname: '/field_2', params: { projectId, userId } }} asChild>
         <Pressable>
             <Text style={styles.footerLeft}>
                 Back
             </Text>
         </Pressable>
     </Link>
-    <Link href={{ pathname: '/field_4', params: { projectId } }} asChild onPress={commit}>
+    <Link href={{ pathname: '/field_4', params: { projectId, userId } }} asChild onPress={commit}>
         <Pressable>
             <Text style={styles.footerRight}>
                 Next

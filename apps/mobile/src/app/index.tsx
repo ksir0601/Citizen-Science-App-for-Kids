@@ -3,20 +3,26 @@ import ScreenTitle from "../components/ScreenTitle";
 import Screen from "../components/Screen";
 import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
-import * as api from "../mock/mockApi"
+import { useAnonymousSignIn} from "@/app/hooks/auth";
+import * as api from "../mock/mockApi";
+// import {kids} from "../mock/mockData";
+
 
 
 export default function Index() {
-
   // Router used in place of <Link> this allows from params
   const router = useRouter();
   const [projectCode, setProjectCode] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState('')
 
+  
+  const { session } = useAnonymousSignIn();
+  const userId = session?.user.id;
 
   const join = async () => {
     try {
-      const result: any = await api.joinProject(projectCode)
+      const result: any = await api.joinProject(projectCode);
+  
 
       const failed =
       !result || result.ok === false || result.success === false || !!result.error;
@@ -26,7 +32,7 @@ export default function Index() {
         return;
       }
       const project = result?.data ?? result;
-      router.push({pathname: '/project_dscr', params: { projectId: String(project.id)}} as any);
+      router.push({pathname: '/project_dscr', params: { projectId: String(project.id), userId: String(userId)}})
     } catch (err) {
       console.log("joinProject failed:", err)
     }

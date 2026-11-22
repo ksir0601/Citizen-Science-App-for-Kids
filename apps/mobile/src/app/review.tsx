@@ -3,22 +3,29 @@ import { router, Link, useLocalSearchParams } from "expo-router";
 import Screen from "../components/Screen";
 import NavBar from "@/components/NavBar";
 import EditableField from "@/components/reviewEdit";
-import { questions } from "@/mock/mockData";
-import * as api from "@/mock/mockApi"
-import { useFormData } from "@/app/context/FormConext"
+import { questions, kids } from "@/mock/mockData";
+import * as api from "@/mock/mockApi";
+import { useFormData } from "@/app/context/FormConext";
+// Add ConfettiCannon to sumbit wait for 3 seconds.
+// import ConfettiCannon from "react-native-confetti-cannon";
 
 export default function Review() {
+
+ 
   const { projectId } = useLocalSearchParams<{projectId: string }>();
-  const {data, resetData } = useFormData()
+  const { userId } = useLocalSearchParams<{userId: string}>();
+  const nickname = kids.find((u) => u.id === userId);
+
+  const {data, resetData } = useFormData();
 
   const projectQuestions = questions
     .filter((q) => q.project_id === projectId)
     .sort((a, b) => a.position - b.position);
 
   const handleSubmit = async () => {
-    await api.addObservation(projectId, data);
+    await api.addObservation(projectId, nickname, data);
     resetData()
-    router.replace({pathname: "/project_dscr", params: { projectId }})
+    router.replace({pathname: "/project_dscr", params: { projectId, userId }})
   }
 
  
