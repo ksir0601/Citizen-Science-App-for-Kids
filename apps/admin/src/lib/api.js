@@ -153,12 +153,20 @@ export async function getProjectResults(projectId) {
   return supabase
     .from('projects')
     .select(`id, name, description, join_code, is_open, classes(id, name),
-      questions(id, position, type, label, options),
-      observations(id, nickname, answers, observed_at)`)
+      questions(id, position, type, label, options, required),
+      observations(id, project_id, created_by, nickname, answers, observed_at)`)
     .eq('id', projectId)
     .order('position', { referencedTable: 'questions' })
     .order('observed_at', { referencedTable: 'observations' })
     .single();
+}
+// Every observation in the signed-in teacher's projects, newest first
+// RLS only returns observations from this teacher's own projects. Used by HomePage 
+export async function getRecentObservations() {
+  return supabase
+    .from('observations')
+    .select('id, project_id, created_by, nickname, answers, observed_at')
+    .order('observed_at', { ascending: false });
 }
 
 // Delete one observation ( a silly or duplicate entry)

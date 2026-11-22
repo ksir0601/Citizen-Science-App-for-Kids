@@ -3,13 +3,16 @@ import { router, Link, useLocalSearchParams } from "expo-router";
 import Screen from "../components/Screen";
 import NavBar from "@/components/NavBar";
 import EditableField from "@/components/reviewEdit";
-import { questions } from "@/mock/mockData";
-import * as api from "@/mock/mockApi"
+import { useProject } from "@/lib/ProjectContext";
+import * as api from "@/lib/api";
+import { useState } from "react";
 import { useFormData } from "@/app/context/FormConext"
 
 export default function Review() {
   const { projectId } = useLocalSearchParams<{projectId: string }>();
   const {data, resetData } = useFormData()
+  const { questions, nickname } = useProject();
+  const [submitError, setSubmitError] = useState("");
 
 
   const projectQuestions = questions
@@ -17,13 +20,18 @@ export default function Review() {
     .sort((a, b) => a.position - b.position);
 
   const handleSubmit = async () => {
-    await api.addObservation(projectId, data);
+    setSubmitError("");
+    const { error } = await api.addObservation(projectId, nickname, data);
+      if (error) {
+        console.log("addObservation failed:", error.message);
+        setSubmitError(" Oops, your entry didn't save. Please try again!");
+        return;
+      }
     resetData()
     router.replace({pathname: "/project_dscr", params: { projectId }})
   }
 
  
-
   return (
     <Screen>
       <NavBar />
@@ -38,8 +46,9 @@ export default function Review() {
         ))}
       </View>
 
+      {submitError ? <Text style={styles.error}>{submitError}</Text> : null}
       <View style={styles.footerRow}>
-        <Link href="/project_dscr" asChild>
+        <Link href={{ pathname: "/project_dscr", params: {projectId} }} asChild>
           <Pressable>
             <Text style={styles.footerLeft}>Back</Text>
           </Pressable>
@@ -82,6 +91,12 @@ const styles = StyleSheet.create({
     color: '#CCCCCC',
     paddingLeft: 75,
     },
+  error: {                                                              // changed (this style)
+    color: "#E07A5F",
+    fontSize: 14,
+    textAlign: "center",
+    marginTop: 6,
+  },
   list: {
     flex: 1,
 },
