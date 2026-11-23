@@ -8,7 +8,7 @@ Six tables. Teachers own classes and projects, and each project can belong to on
 
 ```mermaid
 erDiagram
-    TEACHERS ||--o{ CLASSES : "teaches"}
+    TEACHERS ||--o{ CLASSES : "teaches"
     TEACHERS ||--o{ PROJECTS : "creates"
     CLASSES |o--o{ PROJECTS : "groups"
     PROJECTS ||--o{ QUESTIONS : "asks"
