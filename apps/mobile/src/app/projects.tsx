@@ -2,8 +2,12 @@ import Screen from '../components/Screen';
 import ScreenTitle from '../components/ScreenTitle';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 import { Link } from 'expo-router';
+import * as api from "@/lib/api";
+
+
 
 export default function Projects() {
+  const projects = api.getMyProjects()
   return (
     <Screen>
       <View>
@@ -23,7 +27,7 @@ export default function Projects() {
         <Link href='/project_dscr' asChild>
         <Pressable>
         <Text style={styles.project_list}>
-           - Schoolyard Bug Count
+          
         </Text>
         </Pressable>
         </Link>
