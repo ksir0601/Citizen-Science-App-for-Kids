@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, TextInput, Pressable } from "react-native";
 import ScreenTitle from "../components/ScreenTitle";
 import Screen from "../components/Screen";
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useProject } from "@/lib/ProjectContext";
 
@@ -61,11 +61,6 @@ export default function Index() {
       
         <Text style={styles.buttonText}>Sign in</Text>
       </Pressable>
-      <Link href='/register' asChild>
-      <Pressable>
-        <Text style={styles.register}> {"Don't have an account? Register here"}</Text>
-      </Pressable>
-      </Link>
     </Screen>
   )
 }

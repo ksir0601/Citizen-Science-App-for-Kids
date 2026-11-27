@@ -53,6 +53,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     
   },
+      entry: {
+    fontSize: 14,
+    lineHeight: 22,
+    color: '#CCCCCC',
+    textAlign: 'center',
+  },
   description: {
     fontSize: 14,
     lineHeight: 22,
@@ -92,10 +98,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#CCCCCC'
   },
-    entry: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#CCCCCC',
-    textAlign: 'center',
-  },
+
 });

@@ -8,7 +8,11 @@
     "scheme": "citizensciencejr",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/images/app_banner.png",
+      "bundleIdentifier": "com.thelentomsteam.citizensciencejr",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -17,7 +21,8 @@
         "backgroundImage": "./assets/images/app_banner.png",
         "monochromeImage": "./assets/images/app_banner.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.thelentomsteam.citizensciencejr"
     },
     "web": {
       "output": "static",
@@ -28,9 +33,10 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76
+          "image": "./assets/images/app_banner.png",
+          "imageWidth": 300,
+          "resizeMode": "contain",
+          "backgroundColor": "#3d405b"
         }
       ],
       "expo-font",
@@ -41,6 +47,16 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "4194d205-fff0-435b-8ea4-5e5fe778f756"
+      }
     }
   }
 }

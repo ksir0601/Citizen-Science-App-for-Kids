@@ -61,38 +61,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     
   },
-
-    dscr_head: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#CCCCCC',
-    textDecorationLine: "underline",
-    },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-  },
-    logout:{
-    fontSize: 14,
-    fontFamily: 'PlaypenSan-SemiBold',
-    paddingTop: 5,
-    marginLeft: 50,
-    color: '#CCCCCC'
-  },
+ 
     proj_desc:{
     fontSize: 14,
     fontFamily: 'PlaypenSan-SemiBold',
     paddingTop: 10,
     textAlign: 'center',
-    color: '#CCCCCC'
-  },
-    projects:{
-    fontSize: 14,
-    fontFamily: 'PlaypenSan-SemiBold',
-    paddingTop: 5,
-    marginRight: 50,
     color: '#CCCCCC'
   },
   entry:{

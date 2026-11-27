@@ -1,3 +1,11 @@
+// =====================================================================================
+// Citation: This code was generated witht the help of Claude. 
+// The GenAi interaction lead to the solution regarding an editable form for the user
+// The interaction at times was frustrating but overall helpful It certainly saved time
+// File Owner: Thomas
+//=======================================================================================
+
+
 import { useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useFormData } from "@/app/context/FormConext";
