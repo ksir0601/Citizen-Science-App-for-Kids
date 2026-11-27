@@ -3,9 +3,6 @@ import { Link, useLocalSearchParams } from 'expo-router';
 import Screen from "../components/Screen";
 <<<<<<< HEAD
 import { useProject } from "@/lib/ProjectContext";
-=======
-import { projects } from "../mock/mockData"
->>>>>>> e72e5735b698d21538c9d176698649507ed86805
 import NavBar from "@/components/NavBar";
 
 export default function ProjectDscr() {

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // =====================================================================================
 // Citation: This code was generated witht the help of Claude. 
 // The GenAi interaction lead to the solution regarding temporarily saving data from each page
@@ -8,9 +7,8 @@
 // File Owner: Thomas
 //=======================================================================================
 
-=======
->>>>>>> e72e5735b698d21538c9d176698649507ed86805
-import { createContext, useContext, useState, ReactNode, useCallback } from "react";
+
+import { createContext, ReactNode, useCallback, useContext, useState } from "react";
 
 export type FieldValue = string | number | boolean;
 
