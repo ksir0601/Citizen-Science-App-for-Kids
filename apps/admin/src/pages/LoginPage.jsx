@@ -143,7 +143,7 @@ function LoginPage() {
 
     return (
         <div className='login-page'>
-            <header>Citizen Science App for Kids - Admin</header>
+            <header>Citizen Science for Kids - Admin</header>
             <form onSubmit={handleSubmit}>
                 <h1>{titles[mode]}</h1>
 
