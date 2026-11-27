@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet, TextInput, Pressable } from "react-native";
 import ScreenTitle from "../components/ScreenTitle";
 import Screen from "../components/Screen";
+<<<<<<< HEAD
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useProject } from "@/lib/ProjectContext";
@@ -25,6 +26,41 @@ export default function Index() {
         return;
       }
       router.push({pathname: '/project_dscr', params: { projectId: String(project.id)}} as any);
+=======
+import { Link, useRouter } from 'expo-router';
+import { useState } from 'react';
+// import { useAnonymousSignIn} from "@/app/hooks/auth";
+import * as api from "../mock/mockApi";
+import {kids} from "../mock/mockData";
+
+
+
+export default function Index() {
+  // Router used in place of <Link> this allows from params
+  const router = useRouter();
+  const [projectCode, setProjectCode] = useState('');
+  const [error, setError] = useState('')
+
+  
+  // const { session } = useAnonymousSignIn();
+  // const userId = session?.user.id;
+  const userId = kids[0].id;
+
+  const join = async () => {
+    try {
+      const result: any = await api.joinProject(projectCode);
+  
+
+      const failed =
+      !result || result.ok === false || result.success === false || !!result.error;
+
+      if (failed) {
+        setError("Oops it looks like that is the wrong project code!"); 
+        return;
+      }
+      const project = result?.data ?? result;
+      router.push({pathname: '/project_dscr', params: { projectId: String(project.id), userId: String(userId)}})
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
     } catch (err) {
       console.log("joinProject failed:", err)
     }
@@ -61,6 +97,14 @@ export default function Index() {
       
         <Text style={styles.buttonText}>Sign in</Text>
       </Pressable>
+<<<<<<< HEAD
+=======
+      <Link href='/register' asChild>
+      <Pressable>
+        <Text style={styles.register}> {"Don't have an account? Register here"}</Text>
+      </Pressable>
+      </Link>
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
     </Screen>
   )
 }

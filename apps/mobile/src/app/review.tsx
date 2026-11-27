@@ -3,6 +3,7 @@ import { router, Link, useLocalSearchParams } from "expo-router";
 import Screen from "../components/Screen";
 import NavBar from "@/components/NavBar";
 import EditableField from "@/components/reviewEdit";
+<<<<<<< HEAD
 import { useProject } from "@/lib/ProjectContext";
 import * as api from "@/lib/api";
 import { useState } from "react";
@@ -32,6 +33,35 @@ export default function Review() {
   }
 
  
+=======
+import { questions, kids } from "@/mock/mockData";
+import * as api from "@/mock/mockApi";
+import { useFormData } from "@/app/context/FormConext";
+// Add ConfettiCannon to sumbit wait for 3 seconds.
+// import ConfettiCannon from "react-native-confetti-cannon";
+
+export default function Review() {
+
+ 
+  const { projectId } = useLocalSearchParams<{projectId: string }>();
+  const { userId } = useLocalSearchParams<{userId: string}>();
+  const nickname = kids.find((u) => u.id === userId);
+
+  const {data, resetData } = useFormData();
+
+  const projectQuestions = questions
+    .filter((q) => q.project_id === projectId)
+    .sort((a, b) => a.position - b.position);
+
+  const handleSubmit = async () => {
+    await api.addObservation(projectId, nickname, data);
+    resetData()
+    router.replace({pathname: "/project_dscr", params: { projectId, userId }})
+  }
+
+ 
+
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
   return (
     <Screen>
       <NavBar />
@@ -46,15 +76,23 @@ export default function Review() {
         ))}
       </View>
 
+<<<<<<< HEAD
       {submitError ? <Text style={styles.error}>{submitError}</Text> : null}
       <View style={styles.footerRow}>
         <Link href={{ pathname: "/project_dscr", params: {projectId} }} asChild>
+=======
+      <View style={styles.footerRow}>
+        <Link href="/project_dscr" asChild>
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
           <Pressable>
             <Text style={styles.footerLeft}>Back</Text>
           </Pressable>
         </Link>
         <Pressable onPress={handleSubmit}>
+<<<<<<< HEAD
 
+=======
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
           <Text style={styles.footerRight}>Submit!</Text>
         </Pressable>
       </View>
@@ -91,12 +129,15 @@ const styles = StyleSheet.create({
     color: '#CCCCCC',
     paddingLeft: 75,
     },
+<<<<<<< HEAD
   error: {                                                              // changed (this style)
     color: "#E07A5F",
     fontSize: 14,
     textAlign: "center",
     marginTop: 6,
   },
+=======
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
   list: {
     flex: 1,
 },

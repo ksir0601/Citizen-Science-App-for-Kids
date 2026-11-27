@@ -1,13 +1,21 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { Link, useLocalSearchParams } from 'expo-router';
 import Screen from "../components/Screen";
+<<<<<<< HEAD
 import { useProject } from "@/lib/ProjectContext";
+=======
+import { projects } from "../mock/mockData"
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
 import NavBar from "@/components/NavBar";
 
 export default function ProjectDscr() {
     const {projectId } = useLocalSearchParams<{ projectId: string }>();
+<<<<<<< HEAD
     const { project: joined } = useProject();
     const project = joined?.id === projectId ? joined : null;
+=======
+    const project = projects.find((p) => p.id === projectId)
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
 
     if (!project){
       return (

@@ -10,6 +10,11 @@ import NavBar from '@/components/NavBar';
 
 export default function Field_4() {
     const { projectId } = useLocalSearchParams<{ projectId: string }>();
+<<<<<<< HEAD
+=======
+    const { userId } = useLocalSearchParams<{userId: string}>();
+
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
     const [text, setText] = useState('');
   return (
     <Screen> 
@@ -37,14 +42,22 @@ export default function Field_4() {
 
 
     <View style={styles.footerRow}>
+<<<<<<< HEAD
     <Link href={{pathname: '/field_3', params: { projectId }}} asChild>
+=======
+    <Link href={{pathname: '/field_3', params: { projectId, userId }}} asChild>
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
         <Pressable>
             <Text style={styles.footerLeft}>
                 Back
             </Text>
         </Pressable>
     </Link>
+<<<<<<< HEAD
     <Link href= {{pathname: "/review", params: { projectId } }} asChild>
+=======
+    <Link href= {{pathname: "/review", params: { projectId, userId } }} asChild>
+>>>>>>> e72e5735b698d21538c9d176698649507ed86805
         <Pressable>
             <Text style={styles.footerRight}>
                 Next
