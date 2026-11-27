@@ -1,16 +1,32 @@
-# Citizen-Science-App-for-Kids
+# Citizen Science App for Kids
 The Citizen Science App for Kids is a cross-platform mobile app for K-8 students to collect observations for science projects, plus a website where teachers can create projects, see results, and download the data as a CSV. 
 
-**Status:** In development (Oregon State University capstone, Fall 2026). Final version due Nov 30, 2026. 
+**Live site (teachers):** https://citizen-science-kids.vercel.app
+**Android app (test build):**
+**Demo video:** 
 
-## How it will work
+**Status:** Final version for the Oregon State University capstone, Fall 2026 (submitted Nov 30, 2026).
 
-1. A teacher signs up on the **admin website** and creates a project, such as "Backyard Bug Count", with the questions kids should answer. 
-2. The website give the project a **join code**.
-3. Kids enter the code in the **field app** and submit observations.
+
+## How it works
+
+1. A teacher signs up on the **admin website**, creates a class, and creates a project such as "Backyard Bird Count", with the questions kids should answer. 
+2. The website give the project a  6-letter **join code**.
+3. Kids enter the code in the **field app** and submit observations: checkboxes, dropdowns, numbers and comments(text entry).
 4. The teacher sees the results, charts and stats on the website and can download a CSV.
 
-Kids never create accounts or enter personal information. 
+**Kids never create accounts or enter personal information.** The app signs each device in anonymously, and asks only for an optional first name or nickname. Database security rules (Row Level Security) make sure teachers only see their own classes and projects, and kids only see and edit their own observations 
+
+## Features
+
+| Teacher website | Kids' field app |
+| --- | --- |
+| Sign up and log in | Join a project with a code, no account |
+| Create and organize classes | Read the project explanation |
+| Create projects with questions (checkbox, dropdown, number, text) and a join code | Answer each question and review before submitting |
+| Open or close a project | Closed projects refuse new entries |
+| Results page with observation list, charts and stats | |
+| Download results as CSV | |
 
 ## Progress
 
@@ -21,22 +37,29 @@ Kids never create accounts or enter personal information.
 - [x] Supabase project and database design
 - [x] Database tables and security rules
 - [x] Create projects with join codes
-- [ ] Add observations from the app
-- [ ] Results page, charts and CSV download
+- [x] Add observations from the app
+- [x] Results page, charts and CSV download
+- [x] Website and app connected to the real database
+- [x] 61 automated database tests plus a full-flow test script
+- [x] Website deployed on Vercel
+- [x] Android test build (EAS)
+
+**Future work:** one dynamic question screen for any number of questions, CAPTCHA on sign-up, photo uploads, and offline mode.
 
 ## Team 
 
 | Name | Role |
 | --- | --- |
-| Kelcie | Database (Supabase), repo and CI, project management/scrum master |
+| Kelcie | Database (Supabase), project management/scrum master |
 | Alice | Teacher administration website |
 | Thomas | Kids' cros-platform mobile field app |
 
 ## Tech stack
 
-- **Admin website:** React + Vite
-- **Field app:** cross-platform mobile (Expo)
-- **Backend:** Supabase (PostgreSQL database, Auth)
+- **Admin website:** React + Vite, hosted on Vercel
+- **Field app:** Expo (React Native, TypeScript)
+- **Backend:** Supabase (PostgreSQL database, Auth, RLS)
+- **Testing:** pgTAP database tests, a full-flow test script, ESLint and TypeScript checks
 - **CI:** GitHub Actions
 
 ## Repo layout
@@ -46,7 +69,7 @@ Kids never create accounts or enter personal information.
 | `apps/admin/` | Teacher admin website |
 | `apps/mobile/` | Kids' field app  |
 | `supabase/` | Database setup and migrations |
-| `docs/` | Design docs |
+| `docs/` | Design docs, schema, sources |
 | `.github/workflows/` | CI checks that run on every pull request |
 
 ---
@@ -68,11 +91,13 @@ You can also download the installers from [git-scm.com](https://git-scm.com), [n
 - Close and reopen your terminal after installing, so it finds the new tools.
 - Use **Git Bash** (installed with Git) or **PowerShell**. Every command in this README works in both unless it says otherwise.
 - Run this once so line endings don't cause problems between Mac and Windows:
+
 ```bash
   git config --global core.autocrlf true
 ```
  
 - If PowerShell says **"running scripts is disabled on this system"** when you run `npm` or `npx`, run this once and then try again:
+
 ```powershell
   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
@@ -84,7 +109,7 @@ git --version
 node --version
 npm --version
 ```
-### 2. Clone the team repo
+### 2. Clone the repo
  
 ```bash
 git clone https://github.com/ksir0601/Citizen-Science-App-for-Kids.git
@@ -115,6 +140,7 @@ Get the values from the Supabase dashboard:
  
 - **Project URL:** the **Connect** button, or **Project Settings → Data API**. Use only `https://...supabase.co`, with nothing after it and no slash at the end.
 - **Key:** **Project Settings → API Keys** → the **publishable** key (`sb_publishable_...`). Never use the secret key.
+
 No spaces around `=` and no quotes. `.env.local` is git-ignored, so it's never committed.
  
 ### 3. Start it
@@ -170,8 +196,39 @@ npx expo start --tunnel
 ```
  
 Pressing **`i`** opens the iPhone simulator, but that needs Xcode installed. Use your phone or the browser instead.
+
 ---
- 
+
+## Running the tests
+
+Needs [Docker Desktop](https://www.docker.com/products/docker-desktop/) (open) and the [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started).
+
+From the repo root:
+
+```bash
+supabase start      # local database in Docker
+supabase db reset   # migrations + seed data
+supabase test db    # 61 pgTAP tests (security rules, join codes, classes)
+```
+
+**Full-flow test** (teacher → kid → teacher, no pages needed): put the local URL and key from `supabase status` in `apps/admin/.env.test.local`, then run `node --env-file=.env.test.local scripts/full-flow-test.mjs` from `apps/admin`.
+
+Local-only test logins: `teacher1@test.local` / `teacher2@test.local`, password `password123`.
+
+---
+
+## Deployment
+
+| Part | Where | How it updates |
+| --- | --- | --- |
+| Teacher website | Vercel, built from `apps/admin` (`vercel.json` routes every page to `index.html`) | Automatically on every merge to `main` |
+| Database | Supabase (separate dev and production projects) | Kelcie runs `supabase db push` after a migration PR merges. Never change tables in the dashboard |
+| Kids' app | Android test build with Expo EAS (`eas build --profile preview --platform android`) | Built by hand when the app changes |
+
+Vercel needs two environment variables, `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`, set to the production project's URL and **publishable** key. Ask Kelcie to change them or redeploy.
+
+---
+
 ## How we work
  
 1. Pick an issue from the project board and move it to **In Progress**.
@@ -181,3 +238,5 @@ Pressing **`i`** opens the iPhone simulator, but that needs Xcode installed. Use
 5. CI must pass (**CI passed** check), and one teammate must approve.
 6. **Squash and merge.** The issue closes and the card moves to **Done**.
 7. Don't reuse a branch after it merges. Start a new one for the next task.
+
+Database changes always go in a new file in `supabase/migrations/`, tested locally with `supabase test db` before the PR. 

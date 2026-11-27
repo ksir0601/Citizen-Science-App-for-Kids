@@ -32,7 +32,7 @@ function Navbar() {
             <aside className="navbar">
                 <NavLink to='/' end className='brand'>
                     <img src={banner} alt='' />
-                    <span>Citizen Science Jr</span>
+                    <span>Citizen Science App for Kids - Admin</span>
                 </NavLink>
                 <NavLink to='/' end className='home'>Home</NavLink>
 
