@@ -1,9 +1,17 @@
-import { useState } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+// =====================================================================================
+// Citation: This code was generated witht the help of Claude. 
+// The GenAi interaction lead to the solution regarding an editable form for the user
+// The interaction at times was frustrating but overall helpful It certainly saved time
+// File Owner: Thomas
+//=======================================================================================
+
+
 import { useFormData } from "@/app/context/FormConext";
 import { useDraftAnswer } from "@/app/hooks/useDraftAnswer";
 import { formatValue } from "@/app/utils/FormatValue";
-import QuestionInput, {Question } from "./Switch";
+import { useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import QuestionInput, { Question } from "./Switch";
 
 // Only mounted while editing, so its draft starts fresh from context each time
 function Editor({ question, onClose }: { question: Question; onClose: () => void }) {

@@ -1,9 +1,9 @@
-import { Text, View, StyleSheet, Pressable} from "react-native";
-import { useLocalSearchParams, Link } from 'expo-router';
-import Screen from "@/components/Screen";
 import NavBar from "@/components/NavBar";
+import Screen from "@/components/Screen";
 import QuestionInput from "@/components/Switch";
-import { useProject } from "@/lib/ProjectContext"; 
+import { useProject } from "@/lib/ProjectContext";
+import { Link, useLocalSearchParams } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useDraftAnswer } from "./hooks/useDraftAnswer";
 
 
@@ -62,42 +62,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 20,
   },
-  title: {
-    fontSize: 16,
-    fontFamily: "PlaypenSan-Bold",
-    marginBottom: 10,
-    color: '#CCCCCC',
-    textAlign: 'center',
-    
-  },
+
   description: {
     fontSize: 14,
     lineHeight: 22,
     color: '#CCCCCC',
-  },
-  counterBottun: {
-    width: 44,
-    height:44,
-    borderRadius: 22,
-    alignItems:'center',
-    justifyContent: 'center'
-  },
-  counterText: {
-    color: '#CCCCCC',
-    fontFamily: 'PlaypenSans',
-    fontSize: 40,
-  },
-
-  counterRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 20
-  },
-  footerContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   footerRow: {
     flexDirection: 'row',

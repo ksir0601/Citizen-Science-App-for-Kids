@@ -1,18 +1,16 @@
-import { Text, View, StyleSheet, Pressable } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 
 export default function NavBar() {
+    const { projectId } = useLocalSearchParams<{ projectId: string }>();
+  
     return (
 
     <View style={styles.row}>
-    <Link href='/projects' >
-    <Pressable>
-    <Text style={styles.projects}>Projects</Text>
-    </Pressable>
-    </Link>
-    <Link href='/project_dscr'>
-        <Pressable>
+  
+   <Link href={{ pathname: '/project_dscr', params: { projectId } }}>     
+      <Pressable>
             <Text style={styles.proj_desc}>Projects Description</Text>
         </Pressable>
     </Link>

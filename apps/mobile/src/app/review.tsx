@@ -1,12 +1,12 @@
-import { Text, View, StyleSheet, Pressable } from "react-native";
-import { router, Link, useLocalSearchParams } from "expo-router";
-import Screen from "../components/Screen";
+import { useFormData } from "@/app/context/FormConext";
 import NavBar from "@/components/NavBar";
 import EditableField from "@/components/reviewEdit";
 import { useProject } from "@/lib/ProjectContext";
-import * as api from "@/lib/api";
+import { addObservation } from "@/lib/api";
+import { Link, router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
-import { useFormData } from "@/app/context/FormConext"
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import Screen from "../components/Screen";
 
 export default function Review() {
   const { projectId } = useLocalSearchParams<{projectId: string }>();
@@ -21,7 +21,7 @@ export default function Review() {
 
   const handleSubmit = async () => {
     setSubmitError("");
-    const { error } = await api.addObservation(projectId, nickname, data);
+    const { error } = await addObservation(projectId, nickname, data);
       if (error) {
         console.log("addObservation failed:", error.message);
         setSubmitError(" Oops, your entry didn't save. Please try again!");
@@ -54,7 +54,6 @@ export default function Review() {
           </Pressable>
         </Link>
         <Pressable onPress={handleSubmit}>
-
           <Text style={styles.footerRight}>Submit!</Text>
         </Pressable>
       </View>
