@@ -1,4 +1,4 @@
-import {StyleSheet, TextInput, View} from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
 
 type Props = {

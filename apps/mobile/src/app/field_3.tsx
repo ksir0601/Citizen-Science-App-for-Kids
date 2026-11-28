@@ -1,9 +1,9 @@
-import { Text, View, StyleSheet, Pressable } from "react-native";
-import { Link, useLocalSearchParams } from 'expo-router';
-import Screen from "../components/Screen";
 import NavBar from "@/components/NavBar";
 import QuestionInput from "@/components/Switch";
-import { useProject } from "@/lib/ProjectContext"; 
+import { useProject } from "@/lib/ProjectContext";
+import { Link, useLocalSearchParams } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import Screen from "../components/Screen";
 import { useDraftAnswer } from "./hooks/useDraftAnswer";
 
 
@@ -32,10 +32,6 @@ export default function Field_3() {
               />
             )}
     </View>
-    
-       
-
-
 
     <View style={styles.footerRow}>
     <Link href={{ pathname: '/field_2', params: { projectId } }} asChild>
@@ -63,62 +59,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 20,
   },
-  title: {
-    fontSize: 16,
-    fontFamily: "PlaypenSan-Bold",
-    marginBottom: 10,
-    color: '#CCCCCC',
-    textAlign: 'center',
-    
-  },
+
   description: {
     fontSize: 14,
     lineHeight: 22,
     color: '#CCCCCC',
-  },
-    dscr_head: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#CCCCCC',
-    textDecorationLine: "underline",
-    },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-  },
-    logout:{
-    fontSize: 14,
-    fontFamily: 'PlaypenSan-SemiBold',
-    paddingTop: 5,
-    marginLeft: 50,
-    color: '#CCCCCC'
-  },
-      proj_desc:{
-    fontSize: 14,
-    fontFamily: 'PlaypenSan-SemiBold',
-    paddingTop: 10,
-    textAlign: 'center',
-    color: '#CCCCCC'
-  },
-    projects:{
-    fontSize: 14,
-    fontFamily: 'PlaypenSan-SemiBold',
-    paddingTop: 5,
-    marginRight: 50,
-    color: '#CCCCCC'
-  },
-    entry: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#CCCCCC',
-    textAlign: 'center',
-  },
-  footerContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   footerRow: {
     flexDirection: 'row',
@@ -139,18 +84,4 @@ const styles = StyleSheet.create({
     color: '#CCCCCC',
     paddingLeft: 75,
     },
-
-    grid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-    cell: {
-        width: '33.33%',
-        padding: 8,
-    },
-    cellStyle: {
-        aspectRatio: 1,
-        backgroundColor: "#81B29A",
-        borderRadius: 12,
-    }
 });

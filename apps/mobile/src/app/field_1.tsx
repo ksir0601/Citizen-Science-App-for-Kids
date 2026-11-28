@@ -1,9 +1,9 @@
-import { Text, View, StyleSheet, Pressable} from "react-native";
-import { useLocalSearchParams, Link } from 'expo-router';
-import Screen from "@/components/Screen";
 import NavBar from "@/components/NavBar";
+import Screen from "@/components/Screen";
 import QuestionInput from "@/components/Switch";
 import { useProject } from "@/lib/ProjectContext";
+import { Link, useLocalSearchParams } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useDraftAnswer } from "./hooks/useDraftAnswer";
 
 export default function Field_1() {
@@ -61,38 +61,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     
   },
-
-    dscr_head: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#CCCCCC',
-    textDecorationLine: "underline",
-    },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-  },
-    logout:{
-    fontSize: 14,
-    fontFamily: 'PlaypenSan-SemiBold',
-    paddingTop: 5,
-    marginLeft: 50,
-    color: '#CCCCCC'
-  },
+ 
     proj_desc:{
     fontSize: 14,
     fontFamily: 'PlaypenSan-SemiBold',
     paddingTop: 10,
     textAlign: 'center',
-    color: '#CCCCCC'
-  },
-    projects:{
-    fontSize: 14,
-    fontFamily: 'PlaypenSan-SemiBold',
-    paddingTop: 5,
-    marginRight: 50,
     color: '#CCCCCC'
   },
   entry:{

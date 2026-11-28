@@ -1,9 +1,9 @@
-import { Text, View, StyleSheet, TextInput, Pressable } from "react-native";
-import ScreenTitle from "../components/ScreenTitle";
-import Screen from "../components/Screen";
-import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
 import { useProject } from "@/lib/ProjectContext";
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import Screen from "../components/Screen";
+import ScreenTitle from "../components/ScreenTitle";
 
 
 export default function Index() {
@@ -25,6 +25,7 @@ export default function Index() {
         return;
       }
       router.push({pathname: '/project_dscr', params: { projectId: String(project.id)}} as any);
+
     } catch (err) {
       console.log("joinProject failed:", err)
     }
@@ -61,14 +62,10 @@ export default function Index() {
       
         <Text style={styles.buttonText}>Sign in</Text>
       </Pressable>
-      <Link href='/register' asChild>
-      <Pressable>
-        <Text style={styles.register}> {"Don't have an account? Register here"}</Text>
-      </Pressable>
-      </Link>
-    </Screen>
-  )
-}
+      </Screen>
+
+)};
+
 
 const styles = StyleSheet.create({
   inputGroup: {

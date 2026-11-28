@@ -1,8 +1,8 @@
-import { Text, View, StyleSheet, Pressable } from "react-native";
-import { Link, useLocalSearchParams } from 'expo-router';
-import Screen from "../components/Screen";
-import { useProject } from "@/lib/ProjectContext";
 import NavBar from "@/components/NavBar";
+import { useProject } from "@/lib/ProjectContext";
+import { Link, useLocalSearchParams } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import Screen from "../components/Screen";
 
 export default function ProjectDscr() {
     const {projectId } = useLocalSearchParams<{ projectId: string }>();
@@ -53,6 +53,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     
   },
+      entry: {
+    fontSize: 14,
+    lineHeight: 22,
+    color: '#CCCCCC',
+    textAlign: 'center',
+  },
   description: {
     fontSize: 14,
     lineHeight: 22,
@@ -92,10 +98,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#CCCCCC'
   },
-    entry: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#CCCCCC',
-    textAlign: 'center',
-  },
+
 });

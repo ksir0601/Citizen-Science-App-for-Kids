@@ -1,8 +1,8 @@
-import CheckBox from "./checkBox"
+import { FieldValue } from "@/app/context/FormConext";
+import CheckBox from "./checkBox";
 import DropDown from "./dropdown";
 import Number_entry from "./number_entry";
 import Text_entry from "./textBox";
-import { FieldValue } from "@/app/context/FormConext";
 
 import type { Question } from "@/lib/ProjectContext";
 export type { Question };

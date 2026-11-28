@@ -1,7 +1,7 @@
-import { Stack  } from "expo-router";
-import AppBanner from "../components/appBanner";
 import { FormDataProvider } from "@/app/context/FormConext";
 import { ProjectProvider } from "@/lib/ProjectContext";
+import { Stack } from "expo-router";
+import AppBanner from "../components/appBanner";
 
 export default function RootLayout() {
   return (
