@@ -1,19 +1,11 @@
-import CheckBox from "./checkBox"
+import { FieldValue } from "@/app/context/FormConext";
+import CheckBox from "./checkBox";
 import DropDown from "./dropdown";
 import Number_entry from "./number_entry";
-<<<<<<< HEAD
 import Text_entry from "./textBox";
-import { FieldValue } from "@/app/context/FormConext";
 
 import type { Question } from "@/lib/ProjectContext";
 export type { Question };
-=======
-import { questions } from "@/mock/mockData";
-import Text_entry from "./textBox";
-import { FieldValue } from "@/app/context/FormConext";
-
-export type Question = (typeof questions)[number];
->>>>>>> e72e5735b698d21538c9d176698649507ed86805
 
 type Props = {
   question: Question;

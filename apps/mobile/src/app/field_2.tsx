@@ -1,13 +1,9 @@
-import { Text, View, StyleSheet, Pressable} from "react-native";
-import { useLocalSearchParams, Link } from 'expo-router';
-import Screen from "@/components/Screen";
 import NavBar from "@/components/NavBar";
+import Screen from "@/components/Screen";
 import QuestionInput from "@/components/Switch";
-<<<<<<< HEAD
-import { useProject } from "@/lib/ProjectContext"; 
-=======
-import { questions } from "@/mock/mockData";  
->>>>>>> e72e5735b698d21538c9d176698649507ed86805
+import { useProject } from "@/lib/ProjectContext";
+import { Link, useLocalSearchParams } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useDraftAnswer } from "./hooks/useDraftAnswer";
 
 
@@ -15,19 +11,11 @@ import { useDraftAnswer } from "./hooks/useDraftAnswer";
 
 export default function Field_2() {
   const { projectId } = useLocalSearchParams<{ projectId: string }>();
-<<<<<<< HEAD
   const { questions } = useProject();
   const question = questions
     .filter((q) => q.project_id === projectId)
     .sort((a, b) => a.position - b.position)[1];
   const {draft, setDraft, commit } = useDraftAnswer(question?.id ?? "")
-=======
-  const { userId } = useLocalSearchParams<{userId: string}>();
-  const question = questions
-    .filter((q) => q.project_id === projectId)
-    .sort((a, b) => a.position - b.position)[1];
-  const {draft, setDraft, commit } = useDraftAnswer(question.id)
->>>>>>> e72e5735b698d21538c9d176698649507ed86805
  
 
 
@@ -48,22 +36,14 @@ export default function Field_2() {
       )}
     </View>
     <View style={styles.footerRow}>
-<<<<<<< HEAD
     <Link href={{ pathname: '/field_1', params: { projectId } }} asChild>
-=======
-    <Link href={{ pathname: '/field_1', params: { projectId, userId } }} asChild>
->>>>>>> e72e5735b698d21538c9d176698649507ed86805
         <Pressable>
             <Text style={styles.footerLeft}>
                 Back
             </Text>
         </Pressable>
     </Link>
-<<<<<<< HEAD
     <Link href={{ pathname: '/field_3', params: { projectId } }} asChild onPress={commit}>
-=======
-    <Link href={{ pathname: '/field_3', params: { projectId, userId } }} asChild onPress={commit}>
->>>>>>> e72e5735b698d21538c9d176698649507ed86805
         <Pressable>
             <Text style={styles.footerRight}>
                 Next
@@ -88,33 +68,6 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: '#CCCCCC',
   },
-<<<<<<< HEAD
-=======
-  counterBottun: {
-    width: 44,
-    height:44,
-    borderRadius: 22,
-    alignItems:'center',
-    justifyContent: 'center'
-  },
-  counterText: {
-    color: '#CCCCCC',
-    fontFamily: 'PlaypenSans',
-    fontSize: 40,
-  },
-
-  counterRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 20
-  },
-  footerContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
->>>>>>> e72e5735b698d21538c9d176698649507ed86805
   footerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

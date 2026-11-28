@@ -1,4 +1,4 @@
-import {StyleSheet, TextInput, View} from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
 
 type Props = {
@@ -27,11 +27,7 @@ export default function Number_entry({value, onChange}: Props ){
           style={styles.input}
           onChangeText={handleChange}
           value={String(value)}
-<<<<<<< HEAD
           placeholder="Enter a number here"
-=======
-          placeholder=""
->>>>>>> e72e5735b698d21538c9d176698649507ed86805
           keyboardType="numeric"
         />
         </View>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // =====================================================================================
 // Citation: This code was generated witht the help of Claude. 
 // The GenAi interaction lead to the solution regarding an editable form for the user
@@ -7,14 +6,12 @@
 //=======================================================================================
 
 
-=======
->>>>>>> e72e5735b698d21538c9d176698649507ed86805
-import { useState } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useFormData } from "@/app/context/FormConext";
 import { useDraftAnswer } from "@/app/hooks/useDraftAnswer";
 import { formatValue } from "@/app/utils/FormatValue";
-import QuestionInput, {Question } from "./Switch";
+import { useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import QuestionInput, { Question } from "./Switch";
 
 // Only mounted while editing, so its draft starts fresh from context each time
 function Editor({ question, onClose }: { question: Question; onClose: () => void }) {
